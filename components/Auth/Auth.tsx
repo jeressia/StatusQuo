@@ -18,10 +18,7 @@ interface AuthProps {
 const Auth = (props: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
   const { setLoggedIn, loggedIn } = props;
-
-  console.log(loggedIn);
 
   const handleSignUp = async () => {
     const auth = getAuth(app);
@@ -43,8 +40,6 @@ const Auth = (props: AuthProps) => {
 
   const handleSignIn = async () => {
     const auth = getAuth(app);
-    console.log("signedin");
-    console.log(loggedIn);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
@@ -61,7 +56,7 @@ const Auth = (props: AuthProps) => {
       await signInWithPopup(auth, provider);
       setLoggedIn(true);
     } catch (error: any) {
-      setError(error.message);
+      console.error(error.message);
     }
   };
 
