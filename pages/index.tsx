@@ -1,5 +1,7 @@
+import Auth from "../components/Auth/Auth";
+
 function Home() {
-  return <div>Sample Page</div>;
+  return <Auth />;
 }
 
 export default Home;
