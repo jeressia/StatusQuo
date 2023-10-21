@@ -10,15 +10,18 @@ import { useState } from "react";
 
 import styles from "./Auth.module.scss";
 
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
+interface AuthProps {
+  setLoggedIn: any;
+  loggedIn: boolean;
+}
 
-// Now you can use `auth` and `provider` as expected.
-
-function Auth() {
+const Auth = (props: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
+  const { setLoggedIn, loggedIn } = props;
+
+  console.log(loggedIn);
 
   const handleSignUp = async () => {
     const auth = getAuth(app);
@@ -32,6 +35,7 @@ function Auth() {
       alert(
         "Signup successful! You may sign in with your email address and password now."
       );
+      setLoggedIn(true);
     } catch (error: any) {
       console.error("Error creating user:", error.message);
     }
@@ -39,9 +43,12 @@ function Auth() {
 
   const handleSignIn = async () => {
     const auth = getAuth(app);
+    console.log("signedin");
+    console.log(loggedIn);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      setLoggedIn(true);
     } catch (error: any) {
       console.error(error.message);
     }
@@ -52,6 +59,7 @@ function Auth() {
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
+      setLoggedIn(true);
     } catch (error: any) {
       setError(error.message);
     }
@@ -101,6 +109,6 @@ function Auth() {
       </p>
     </div>
   );
-}
+};
 
 export default Auth;
