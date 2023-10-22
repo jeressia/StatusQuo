@@ -23,6 +23,87 @@ body {
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  width: 320px;
+  width: 400px;
   background-color: white;
+}
+
+.App {
+  height: 100vh;
+  width: 100%;
+  background: aquamarine;
+}
+
+h2 {
+  font-weight: 400;
+  padding: 10px 0;
+}
+
+h4 {
+  margin-top: 20px;
+}
+
+h5 {
+  font-weight: 300;
+  padding: 20px 0;
+}
+
+footer {
+  border-top: 1px solid lightgray;
+  z-index: 1000;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 400px;
+  background-color: white;
+  color: gray;
+  text-align: center;
+  box-shadow: -2px 0px 10px -2px rgba(0, 0, 0, 0.1);
+  padding: 0 15px;
+}
+
+.allFooterButtons {
+  display: flex;
+  max-width: 100%;
+  list-style: none;
+  justify-content: space-between;
+  padding-left: 0;
+  margin-bottom: 0;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+p.footerIcon {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+}
+
+.activeFooter > .footerBarOption > .footerIcon > .footerSvg {
+  filter: invert(30%) sepia(83%) saturate(4273%) hue-rotate(333deg)
+    brightness(99%) contrast(87%);
+  font-weight: bold;
+}
+
+.activeFooter > .footerBarOption > .optionTitle {
+  color: #ec5c44;
+  font-weight: bold;
+}
+
+.footerImg {
+  height: 20px;
+  margin: 13px;
+}
+
+.appWrapper {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 450px;
+}
+
+.optionTitle {
+  margin: 0;
+  padding-bottom: 10px;
+  font-size: 12px;
+  text-decoration: none;
+  color: black;
 }

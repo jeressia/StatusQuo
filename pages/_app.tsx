@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>StatusQuo</title>
         <link rel="shortcut icon" href="/favicon.png" />
       </Head>
-      <div className="mobile-container">
+      <div>
         <Component {...pageProps} />
       </div>
     </>
