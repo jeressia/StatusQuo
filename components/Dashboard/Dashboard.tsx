@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { app } from "../../utils/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import "firebase/auth";
+import Navigation from "../Navigation/Navigation";
 
 const Dashboard = () => {
   const [user, setUser] = useState<null | string>("");
@@ -18,7 +19,12 @@ const Dashboard = () => {
     }
   });
 
-  return <div>Hello, {user}!</div>;
+  return (
+    <div>
+      Hello, {user}!
+      <Navigation />
+    </div>
+  );
 };
 
 export default Dashboard;

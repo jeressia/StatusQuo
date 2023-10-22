@@ -9,7 +9,9 @@ function Home() {
     setLoggedIn(true);
   };
   return loggedIn ? (
-    <Dashboard />
+    <div className="App">
+      <Dashboard />
+    </div>
   ) : (
     <Auth setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
   );
