@@ -1,25 +1,53 @@
-import React, { useState } from "react";
-import { app } from "../../utils/firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import React, { useEffect, useState } from "react";
 import "firebase/auth";
 import Layout from "../../layout/Layout";
 
-const Dashboard = () => {
-  const [user, setUser] = useState<null | string>("");
-  const auth = getAuth(app);
+import styles from "./Dashboard.module.scss";
+import { getAppointmentsById } from "../../pages/api/getAppointmentsById";
 
-  onAuthStateChanged(auth, (user) => {
-    if (user !== null) {
-      // User is signed in
-      if (user.displayName === null) setUser("New User");
-      else setUser(user.displayName);
-    } else {
-      // No user is signed in
-      console.log("No user is signed in.");
-    }
-  });
+interface DashboardProps {
+  user: string | null;
+  userId: string | null;
+}
+const Dashboard = (props: DashboardProps) => {
+  const { user } = props;
+  const [appointments, setAppointments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const view = () => <div>Hello, {user}! </div>;
+  let userId = 1;
+
+  useEffect(() => {
+    // Make the API request when the component mounts
+    fetch(`/api/getAppointmentsById?userId=${userId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setAppointments(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching appointments:", error);
+        setLoading(false);
+      });
+  }, [userId]);
+
+  const view = () =>
+    loading ? (
+      <div>Loading...</div>
+    ) : (
+      <div className={styles.dashboard}>
+        <div className={styles.greeting}>
+          <p>Hello, {user}! </p>
+        </div>
+        <div className={styles.upcomingAppointments}>
+          <h1>Appointments</h1>
+          <ul>
+            {appointments.map((appointment) => (
+              <li key={appointment.id}>{appointment.title}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
 
   return <Layout>{view()}</Layout>;
 };
