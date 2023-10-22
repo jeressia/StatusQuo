@@ -1,34 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "firebase/auth";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../../utils/firebase";
 import Layout from "../../layout/Layout";
 
 import styles from "./Dashboard.module.scss";
-import { getAppointmentsById } from "../../pages/api/getAppointmentsById";
+import { Appointment } from "../../pages/dashboard";
 
 interface DashboardProps {
   user: string | null;
   userId: string | null;
+  appointments: Appointment[];
+  setAppointments: Dispatch<SetStateAction<Appointment[]>>;
 }
-const Dashboard = (props: DashboardProps) => {
-  const { user } = props;
-  const [appointments, setAppointments] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
 
-  let userId = 1;
+const Dashboard = (props: DashboardProps) => {
+  const { user, appointments, setAppointments } = props;
+  const [loading, setLoading] = useState(false);
+  console.log(appointments);
+  const appointmentsRef = collection(db, "appointments");
 
   useEffect(() => {
-    // Make the API request when the component mounts
-    fetch(`/api/getAppointmentsById?userId=${userId}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setAppointments(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching appointments:", error);
-        setLoading(false);
-      });
-  }, [userId]);
+    const getAppointments = async () => {
+      //Read data
+      try {
+        const data = await getDocs(appointmentsRef);
+        const filterData = data.docs.map((doc) => ({
+          ...doc.data(),
+          id: doc.id,
+        }));
+
+        setAppointments(filterData);
+      } catch (err) {
+        console.log(err);
+      }
+      //Set state
+    };
+
+    getAppointments();
+  }, []);
 
   const view = () =>
     loading ? (
@@ -42,7 +52,9 @@ const Dashboard = (props: DashboardProps) => {
           <h1>Appointments</h1>
           <ul>
             {appointments.map((appointment) => (
-              <li key={appointment.id}>{appointment.title}</li>
+              <li key={appointment.id}>
+                {appointment.appointment_description}
+              </li>
             ))}
           </ul>
         </div>
