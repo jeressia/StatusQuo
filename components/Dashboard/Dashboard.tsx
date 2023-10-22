@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "firebase/auth";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import Layout from "../../layout/Layout";
 
@@ -9,16 +9,19 @@ import { Appointment } from "../../pages/dashboard";
 
 interface DashboardProps {
   user: string | null;
-  userId: string | null;
+  userId: number | null;
   appointments: Appointment[];
   setAppointments: Dispatch<SetStateAction<Appointment[]>>;
 }
 
 const Dashboard = (props: DashboardProps) => {
-  const { user, appointments, setAppointments } = props;
+  const { user, appointments, userId, setAppointments } = props;
   const [loading, setLoading] = useState(false);
   console.log(appointments);
-  const appointmentsRef = collection(db, "appointments");
+  const appointmentsRef = query(
+    collection(db, "appointments"),
+    where("user_id", "==", 1)
+  );
 
   useEffect(() => {
     const getAppointments = async () => {
