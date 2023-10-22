@@ -19,12 +19,7 @@ const Dashboard = () => {
     }
   });
 
-  return (
-    <div>
-      Hello, {user}!
-      <Navigation />
-    </div>
-  );
+  return <div>Hello, {user}! </div>;
 };
 
 export default Dashboard;

@@ -1,19 +1,25 @@
 import { useState } from "react";
 import Auth from "../components/Auth/Auth";
 import Dashboard from "../components/Dashboard/Dashboard";
+import Layout from "../layout/Layout";
 
 function Home() {
   const [loggedIn, setLoggedIn] = useState(false);
 
-  const logIn = () => {
-    setLoggedIn(true);
+  const view = () => {
+    return (
+      <div className="App">
+        <Dashboard />
+      </div>
+    );
   };
+
   return loggedIn ? (
-    <div className="App">
-      <Dashboard />
-    </div>
+    <Layout>{view()}</Layout>
   ) : (
-    <Auth setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
+    <div className="App">
+      <Auth setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
+    </div>
   );
 }
 
