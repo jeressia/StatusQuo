@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { app } from "../../utils/firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import "firebase/auth";
-import Navigation from "../Navigation/Navigation";
+import Layout from "../../layout/Layout";
 
 const Dashboard = () => {
   const [user, setUser] = useState<null | string>("");
@@ -19,7 +19,9 @@ const Dashboard = () => {
     }
   });
 
-  return <div>Hello, {user}! </div>;
+  const view = () => <div>Hello, {user}! </div>;
+
+  return <Layout>{view()}</Layout>;
 };
 
 export default Dashboard;
