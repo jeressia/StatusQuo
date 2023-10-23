@@ -14,7 +14,19 @@ type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
 const Map: React.FC = () => {
-  const center = useMemo(() => ({ lat: 43, lng: -80 }), []);
+  const mapRef = useRef<GoogleMap>();
+  const center = useMemo<LatLngLiteral>(
+    () => ({ lat: 36.01973, lng: -86.57831 }),
+    []
+  );
+  const options = useMemo<MapOptions>(
+    () => ({
+      disableDefaultUI: true,
+      clickableIcons: false,
+      mapId: "4dbafae57e10f64f",
+    }),
+    []
+  );
   // useEffect(() => {
   //   if (navigator.geolocation) {
   //     navigator.geolocation.getCurrentPosition((position) => {
@@ -27,17 +39,23 @@ const Map: React.FC = () => {
   //   }
   // }, []); // Run this effect only once, when the component mounts
 
+  const onLoad = useCallback((map: any) => (mapRef.current = map), []);
   return (
     <div className="MapComponent">
-      {/* <div className="controls">
-        <h1>Commute?</h1>
-      </div> */}
       <div className="map">
         <GoogleMap
-          zoom={12}
+          zoom={13}
           center={center}
           mapContainerClassName="map-container"
+          options={options}
+          onLoad={onLoad}
         />
+      </div>
+      <div className="controls">
+        <button>STD Testing</button>
+        <button>Pharmacy</button>
+        <button>Contraceptives</button>
+        <button>Advocacy</button>
       </div>
     </div>
   );
