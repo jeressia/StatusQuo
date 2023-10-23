@@ -1,11 +1,10 @@
 import {
-  getAuth,
   signInWithPopup,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
 } from "firebase/auth";
-import { app } from "../../utils/firebase";
+import { auth } from "../../utils/firebase";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import styles from "./Auth.module.scss";
@@ -23,18 +22,16 @@ const Auth = (props: AuthProps) => {
   const { setLoggedIn, loggedIn, setUserId, setUser } = props;
 
   const handleSignIn = async () => {
-    const auth = getAuth(app);
-
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setLoggedIn(true);
+      setUserId(auth?.currentUser?.uid || null);
     } catch (error: any) {
       console.error(error.message);
     }
   };
 
   const handleSignInWithGoogle = async () => {
-    const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
@@ -43,8 +40,6 @@ const Auth = (props: AuthProps) => {
       console.error(error.message);
     }
   };
-
-  const auth = getAuth(app);
 
   onAuthStateChanged(auth, (user) => {
     if (user !== null) {
