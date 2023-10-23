@@ -7,6 +7,7 @@ import {
   MarkerClusterer,
 } from "@react-google-maps/api";
 import Places from "./Places";
+import { dir } from "console";
 // import Distance from "./distance";
 
 export type LatLngLiteral = google.maps.LatLngLiteral;
@@ -41,7 +42,6 @@ const Map: React.FC = () => {
   // }, []); // Run this effect only once, when the component mounts
 
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
-  const markerSize = new google.maps.Size(50, 50); // Define the size of the marker (width, height) in pixels
 
   const customMarkerIcon = {
     url: "/favicon.png", // URL to your custom marker icon image
@@ -50,6 +50,23 @@ const Map: React.FC = () => {
     anchor: new window.google.maps.Point(25, 25), // Anchor of the marker (centered in this case)
   };
 
+  const generateInterestPlaces = (position: LatLngLiteral) => {
+    const _interestPlaces: LatLngLiteral[] = [];
+    for (let i = 0; i < 8; i++) {
+      const direction = Math.random() < 0.5 ? -2 : 2;
+      _interestPlaces.push({
+        lat: position.lat + Math.random() / direction,
+        lng: position.lng + Math.random() / direction,
+      });
+    }
+    return _interestPlaces;
+  };
+
+  const interestPlaces = useMemo(() => {
+    generateInterestPlaces;
+  }, [center]);
+
+  console.log(interestPlaces);
   return (
     <div className="MapComponent">
       <div className="map">
@@ -63,6 +80,10 @@ const Map: React.FC = () => {
           {location && (
             <>
               <Marker position={location} icon={customMarkerIcon} />
+
+              {/* {interestPlaces.map((location: any) => (
+                <Marker />
+              ))} */}
               <Circle center={location} radius={400} />
             </>
           )}
