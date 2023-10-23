@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import Dashboard from "../components/Dashboard/Dashboard";
 import Auth from "../components/Auth/Auth";
+import { Timestamp } from "firebase/firestore";
 
 export interface Appointment {
   id: string;
   appointment_description?: string;
-  appointment_end_at?: Date;
-  appointment_start_at?: Date;
+  appointment_end_at?: Timestamp;
+  appointment_start_at?: Timestamp;
   userId?: string;
 }
 

@@ -3,7 +3,6 @@ import { Appointment } from "../../pages/dashboard";
 import {
   addDoc,
   collection,
-  deleteDoc,
   doc,
   getDocs,
   query,
@@ -16,6 +15,7 @@ import styles from "./Appointments.module.scss";
 import UpdateAppointment from "./UpdateAppointment";
 import DeleteAppointment from "./DeleteAppointment";
 import AddAppointments from "./AddAppointments";
+import { timeNormalizer } from "../../utils/math";
 
 interface AppointmentProps {
   appointments: Appointment[];
@@ -61,8 +61,6 @@ function AppointmentView(props: AppointmentProps) {
     }
   };
 
-  console.log(appointments, "appointments");
-
   const updateAppointment = async (id: string) => {
     const appointmentToUpdate = doc(db, "appointments", id);
     await updateDoc(appointmentToUpdate, {
@@ -77,25 +75,32 @@ function AppointmentView(props: AppointmentProps) {
 
   return (
     <div className={styles.upcomingAppointments}>
-      <h1>Appointments</h1>
-      <ul>
-        {appointments.map((appointment) => (
-          <>
-            <li key={appointment.id}>{appointment.appointment_description}</li>
-            <p>{appointment?.appointment_start_at?.toLocaleString()}</p>
-            <UpdateAppointment
-              appointment={appointment}
-              updateAppointment={updateAppointment}
-              updatedTitle={updatedTitle}
-              setUpdatedTitle={setUpdatedTitle}
-            />
-            <DeleteAppointment
-              getAppointments={getAppointments}
-              appointment={appointment}
-            />
-          </>
-        ))}
-      </ul>
+      <h1>Upcoming Appointments</h1>
+      {appointments && appointments.length > 0 ? (
+        <ul>
+          {appointments.map((appointment: Appointment) => (
+            <>
+              <li key={appointment.id}>
+                {appointment.appointment_description}
+              </li>
+              <p>{timeNormalizer(appointment?.appointment_start_at)}</p>
+              <UpdateAppointment
+                appointment={appointment}
+                updateAppointment={updateAppointment}
+                updatedTitle={updatedTitle}
+                setUpdatedTitle={setUpdatedTitle}
+              />
+              <DeleteAppointment
+                getAppointments={getAppointments}
+                appointment={appointment}
+              />
+            </>
+          ))}
+        </ul>
+      ) : (
+        <p>No upcoming appointments</p>
+      )}
+
       <AddAppointments onSubmitAppointment={onSubmitAppointment} />
     </div>
   );
