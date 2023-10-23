@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Appointment } from "../../pages/dashboard";
 import {
   addDoc,
@@ -24,6 +24,7 @@ interface AppointmentProps {
 }
 
 function AppointmentView(props: AppointmentProps) {
+  const [updatedTitle, setUpdatedTitle] = useState("");
   const { appointments, userId, setAppointments } = props;
 
   const appointmentsCollection = collection(db, "appointments");
@@ -65,8 +66,9 @@ function AppointmentView(props: AppointmentProps) {
   const updateAppointment = async (id: string) => {
     const appointmentToUpdate = doc(db, "appointments", id);
     await updateDoc(appointmentToUpdate, {
-      appointment_description: "updated appointment",
+      appointment_description: updatedTitle,
     });
+    getAppointments();
   };
 
   useEffect(() => {
@@ -81,7 +83,12 @@ function AppointmentView(props: AppointmentProps) {
           <>
             <li key={appointment.id}>{appointment.appointment_description}</li>
             <p>{appointment?.appointment_start_at?.toLocaleString()}</p>
-            <UpdateAppointment updateAppointment={updateAppointment} />
+            <UpdateAppointment
+              appointment={appointment}
+              updateAppointment={updateAppointment}
+              updatedTitle={updatedTitle}
+              setUpdatedTitle={setUpdatedTitle}
+            />
             <DeleteAppointment
               getAppointments={getAppointments}
               appointment={appointment}
