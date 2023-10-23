@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Dashboard from "../components/Dashboard/Dashboard";
 import Auth from "../components/Auth/Auth";
 import { Timestamp } from "firebase/firestore";
+import Search from "../components/Search/Search";
 
 export interface Appointment {
   id: string;
@@ -17,7 +18,12 @@ function Home() {
   const [userId, setUserId] = useState<null | string>(null);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  // return (
+  return (
+    <div className="App">
+      <Search />
+    </div>
+  );
+  // return loggedIn ? (
   //   <div className="App">
   //     <Dashboard
   //       user={user}
@@ -26,26 +32,16 @@ function Home() {
   //       setAppointments={setAppointments}
   //     />
   //   </div>
+  // ) : (
+  //   <div className="App">
+  //     <Auth
+  //       setLoggedIn={setLoggedIn}
+  //       loggedIn={loggedIn}
+  //       setUserId={setUserId}
+  //       setUser={setUser}
+  //     />
+  //   </div>
   // );
-  return loggedIn ? (
-    <div className="App">
-      <Dashboard
-        user={user}
-        userId={userId}
-        appointments={appointments}
-        setAppointments={setAppointments}
-      />
-    </div>
-  ) : (
-    <div className="App">
-      <Auth
-        setLoggedIn={setLoggedIn}
-        loggedIn={loggedIn}
-        setUserId={setUserId}
-        setUser={setUser}
-      />
-    </div>
-  );
 }
 
 export default Home;
