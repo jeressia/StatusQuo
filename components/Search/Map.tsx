@@ -50,7 +50,9 @@ const Map: React.FC = () => {
           mapContainerClassName="map-container"
           options={options}
           onLoad={onLoad}
-        />
+        >
+          {location && <Marker position={location} />}
+        </GoogleMap>
       </div>
       <div className="controls">
         <Places
