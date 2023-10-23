@@ -6,6 +6,7 @@ import { Appointment } from "../../pages/dashboard";
 import AppointmentView from "../Appointments/AppointmentView";
 
 import styles from "./Dashboard.module.scss";
+import QRView from "../QR/QRView";
 
 interface DashboardProps {
   user: string | null;
@@ -31,6 +32,7 @@ const Dashboard = (props: DashboardProps) => {
           userId={userId}
           setAppointments={setAppointments}
         />
+        <QRView />
       </div>
     );
 
