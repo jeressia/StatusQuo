@@ -1,13 +1,29 @@
 import React from "react";
 import Layout from "../../layout/Layout";
-import MapContainer from "./Map";
+import { useLoadScript } from "@react-google-maps/api";
+import Map from "./Map";
+
+import styles from "./Search.module.scss";
+
+// import { libraries } from "../../utils/libraries";
 
 const Search = () => {
-  const view = () => (
-    <div>
-      <MapContainer />
-    </div>
-  );
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
+    libraries: ["places"],
+  });
+
+  console.log("isLoaded:", isLoaded);
+  const view = () =>
+    !isLoaded ? (
+      <div>Loading...</div>
+    ) : loadError ? (
+      <div>Load Error</div>
+    ) : (
+      <div className={styles.Search}>
+        <Map />
+      </div>
+    );
 
   return <Layout>{view()}</Layout>;
 };

@@ -1,24 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { GoogleMap } from "@react-google-maps/api";
+import React, { useCallback, useMemo, useRef, useState } from "react";
+import {
+  GoogleMap,
+  Marker,
+  DirectionsRenderer,
+  Circle,
+  MarkerClusterer,
+} from "@react-google-maps/api";
+// import Places from "./places";
+// import Distance from "./distance";
 
-const MapContainer: React.FC = () => {
-  const [mapCenter, setMapCenter] = useState({ lat: 0, lng: 0 });
+type LatLngLiteral = google.maps.LatLngLiteral;
+type DirectionsResult = google.maps.DirectionsResult;
+type MapOptions = google.maps.MapOptions;
 
-  useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const userLocation = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude,
-        };
-        setMapCenter(userLocation);
-      });
-    }
-  }, []); // Run this effect only once, when the component mounts
+const Map: React.FC = () => {
+  const center = useMemo(() => ({ lat: 43, lng: -80 }), []);
+  // useEffect(() => {
+  //   if (navigator.geolocation) {
+  //     navigator.geolocation.getCurrentPosition((position) => {
+  //       const userLocation = {
+  //         lat: position.coords.latitude,
+  //         lng: position.coords.longitude,
+  //       };
+  //       setMapCenter(userLocation);
+  //     });
+  //   }
+  // }, []); // Run this effect only once, when the component mounts
 
   return (
-    <GoogleMap center={{ lat: mapCenter.lat, lng: mapCenter.lng }} zoom={11} />
+    <div className="MapComponent">
+      {/* <div className="controls">
+        <h1>Commute?</h1>
+      </div> */}
+      <div className="map">
+        <GoogleMap
+          zoom={12}
+          center={center}
+          mapContainerClassName="map-container"
+        />
+      </div>
+    </div>
   );
 };
 
-export default MapContainer;
+export default Map;

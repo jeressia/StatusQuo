@@ -27,6 +27,22 @@ body {
   background-color: white;
 }
 
+.MapComponent {
+  display: flex;
+  height: 100vh;
+}
+
+.map {
+  width: 80%;
+  height: 100vh;
+}
+
+
+.map-container {
+  width: 100%;
+  height: 100vh;
+}
+
 .App {
   height: 100vh;
   width: 100%;
@@ -78,13 +94,12 @@ p.footerIcon {
   margin: 0;
 }
 
-.activeFooter > .footerBarOption > .footerIcon > .footerSvg {
-  filter: invert(30%) sepia(83%) saturate(4273%) hue-rotate(333deg)
-    brightness(99%) contrast(87%);
+.activeFooter>.footerBarOption>.footerIcon>.footerSvg {
+  filter: invert(30%) sepia(83%) saturate(4273%) hue-rotate(333deg) brightness(99%) contrast(87%);
   font-weight: bold;
 }
 
-.activeFooter > .footerBarOption > .optionTitle {
+.activeFooter>.footerBarOption>.optionTitle {
   color: #ec5c44;
   font-weight: bold;
 }
