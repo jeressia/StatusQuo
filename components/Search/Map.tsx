@@ -54,13 +54,18 @@ const Map: React.FC = () => {
     <div className="MapComponent">
       <div className="map">
         <GoogleMap
-          zoom={13}
+          zoom={15}
           center={center}
           mapContainerClassName="map-container"
           options={options}
           onLoad={onLoad}
         >
-          {location && <Marker position={location} icon={customMarkerIcon} />}
+          {location && (
+            <>
+              <Marker position={location} icon={customMarkerIcon} />
+              <Circle center={location} radius={400} />
+            </>
+          )}
         </GoogleMap>
       </div>
       <div className="controls">
