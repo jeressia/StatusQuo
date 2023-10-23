@@ -1,56 +1,37 @@
 import {
-  getAuth,
   signInWithPopup,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
-  createUserWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
-import { app } from "../../utils/firebase";
-import { useState } from "react";
+import { auth } from "../../utils/firebase";
+import { Dispatch, SetStateAction, useState } from "react";
 
 import styles from "./Auth.module.scss";
 
 interface AuthProps {
   setLoggedIn: any;
   loggedIn: boolean;
+  setUserId: Dispatch<SetStateAction<string | null>>;
+  setUser: Dispatch<SetStateAction<string | null>>;
 }
 
 const Auth = (props: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setLoggedIn, loggedIn } = props;
-
-  const handleSignUp = async () => {
-    const auth = getAuth(app);
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      alert(
-        "Signup successful! You may sign in with your email address and password now."
-      );
-      setLoggedIn(true);
-    } catch (error: any) {
-      console.error("Error creating user:", error.message);
-    }
-  };
+  const { setLoggedIn, loggedIn, setUserId, setUser } = props;
 
   const handleSignIn = async () => {
-    const auth = getAuth(app);
-
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setLoggedIn(true);
+      setUserId(auth?.currentUser?.uid || null);
     } catch (error: any) {
       console.error(error.message);
     }
   };
 
   const handleSignInWithGoogle = async () => {
-    const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
     try {
       await signInWithPopup(auth, provider);
@@ -59,6 +40,20 @@ const Auth = (props: AuthProps) => {
       console.error(error.message);
     }
   };
+
+  onAuthStateChanged(auth, (user) => {
+    if (user !== null) {
+      // User is signed in
+      if (user.displayName === null) setUser("New User");
+      else {
+        setUser(user.displayName);
+        setUserId(user.uid);
+      }
+    } else {
+      // No user is signed in
+      console.log("No user is signed in.");
+    }
+  });
 
   return (
     <div className={styles.auth}>
@@ -96,12 +91,6 @@ const Auth = (props: AuthProps) => {
           Sign In With Google
         </button>
       </div>
-      <p>
-        New user?
-        <a href="#" className="link-dark" onClick={handleSignUp}>
-          Sign-up
-        </a>
-      </p>
     </div>
   );
 };

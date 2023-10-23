@@ -1,23 +1,15 @@
-import { useState } from "react";
-import Auth from "../components/Auth/Auth";
-import Dashboard from "../components/Dashboard/Dashboard";
+// pages/index.tsx
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-function Home() {
-  const [loggedIn, setLoggedIn] = useState(false);
+const Index = () => {
+  const router = useRouter();
 
-  return (
-    <div className="App">
-      <Dashboard />
-    </div>
-  );
+  useEffect(() => {
+    router.replace("/dashboard");
+  }, []);
 
-  // loggedIn ? (
-  //   <div className="App">
-  //     <Dashboard />
-  //   </div>
-  // ) : (
-  //   <Auth setLoggedIn={setLoggedIn} loggedIn={loggedIn} />
-  // );
-}
+  return null; // This page is empty since it's only for redirection.
+};
 
-export default Home;
+export default Index;

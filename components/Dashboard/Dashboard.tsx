@@ -1,25 +1,38 @@
-import React, { useState } from "react";
-import { app } from "../../utils/firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import "firebase/auth";
 import Layout from "../../layout/Layout";
 
-const Dashboard = () => {
-  const [user, setUser] = useState<null | string>("");
-  const auth = getAuth(app);
+import { Appointment } from "../../pages/dashboard";
+import AppointmentView from "../Appointments/AppointmentView";
 
-  onAuthStateChanged(auth, (user) => {
-    if (user !== null) {
-      // User is signed in
-      if (user.displayName === null) setUser("New User");
-      else setUser(user.displayName);
-    } else {
-      // No user is signed in
-      console.log("No user is signed in.");
-    }
-  });
+import styles from "./Dashboard.module.scss";
 
-  const view = () => <div>Hello, {user}! </div>;
+interface DashboardProps {
+  user: string | null;
+  userId: string | null;
+  appointments: Appointment[];
+  setAppointments: Dispatch<SetStateAction<Appointment[]>>;
+}
+
+const Dashboard = (props: DashboardProps) => {
+  const { user, appointments, userId, setAppointments } = props;
+  const [loading, setLoading] = useState(false);
+
+  const view = () =>
+    loading ? (
+      <div>Loading...</div>
+    ) : (
+      <div className={styles.dashboard}>
+        <div className={styles.greeting}>
+          <p>Hello, {user}! </p>
+        </div>
+        <AppointmentView
+          appointments={appointments}
+          userId={userId}
+          setAppointments={setAppointments}
+        />
+      </div>
+    );
 
   return <Layout>{view()}</Layout>;
 };
