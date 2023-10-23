@@ -1,7 +1,8 @@
 import React from "react";
+import Search from "../components/Search/Search";
 
 function search() {
-  return <div>search</div>;
+  return <Search />;
 }
 
 export default search;
