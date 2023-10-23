@@ -6,14 +6,15 @@ import {
   Circle,
   MarkerClusterer,
 } from "@react-google-maps/api";
-// import Places from "./places";
+import Places from "./Places";
 // import Distance from "./distance";
 
-type LatLngLiteral = google.maps.LatLngLiteral;
+export type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
 const Map: React.FC = () => {
+  const [location, setLocation] = useState<LatLngLiteral>();
   const mapRef = useRef<GoogleMap>();
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: 36.01973, lng: -86.57831 }),
@@ -52,6 +53,12 @@ const Map: React.FC = () => {
         />
       </div>
       <div className="controls">
+        <Places
+          setLocation={(position: LatLngLiteral) => {
+            setLocation(position);
+            mapRef.current?.panTo(position);
+          }}
+        />
         <button>STD Testing</button>
         <button>Pharmacy</button>
         <button>Contraceptives</button>
