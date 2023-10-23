@@ -15,7 +15,7 @@ type MapOptions = google.maps.MapOptions;
 
 const Map: React.FC = () => {
   const [location, setLocation] = useState<LatLngLiteral>();
-  const mapRef = useRef<GoogleMap>();
+  const mapRef = useRef<GoogleMap | null>(null);
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: 36.01973, lng: -86.57831 }),
     []
@@ -41,6 +41,15 @@ const Map: React.FC = () => {
   // }, []); // Run this effect only once, when the component mounts
 
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
+  const markerSize = new google.maps.Size(50, 50); // Define the size of the marker (width, height) in pixels
+
+  const customMarkerIcon = {
+    url: "/favicon.png", // URL to your custom marker icon image
+    scaledSize: new window.google.maps.Size(20, 20), // Size of the marker icon
+    origin: new window.google.maps.Point(0, 0), // Position of the icon's origin within the image
+    anchor: new window.google.maps.Point(25, 25), // Anchor of the marker (centered in this case)
+  };
+
   return (
     <div className="MapComponent">
       <div className="map">
@@ -51,7 +60,7 @@ const Map: React.FC = () => {
           options={options}
           onLoad={onLoad}
         >
-          {location && <Marker position={location} />}
+          {location && <Marker position={location} icon={customMarkerIcon} />}
         </GoogleMap>
       </div>
       <div className="controls">
