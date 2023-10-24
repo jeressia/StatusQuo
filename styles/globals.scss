@@ -38,7 +38,6 @@ body {
   height: 25vh;
 }
 
-
 .map-container {
   width: 100%;
   height: 100vh;
@@ -95,12 +94,13 @@ p.footerIcon {
   margin: 0;
 }
 
-.activeFooter>.footerBarOption>.footerIcon>.footerSvg {
-  filter: invert(30%) sepia(83%) saturate(4273%) hue-rotate(333deg) brightness(99%) contrast(87%);
+.activeFooter > .footerBarOption > .footerIcon > .footerSvg {
+  filter: invert(30%) sepia(83%) saturate(4273%) hue-rotate(333deg)
+    brightness(99%) contrast(87%);
   font-weight: bold;
 }
 
-.activeFooter>.footerBarOption>.optionTitle {
+.activeFooter > .footerBarOption > .optionTitle {
   color: #ec5c44;
   font-weight: bold;
 }
@@ -125,6 +125,24 @@ p.footerIcon {
 }
 
 .controls {
-  height: 20vh;
+  position: fixed;
+  bottom: 65px;
   z-index: 99;
+  background-color: #f4f4f4;
+  height: 170px;
+  width: 400px;
+  padding: 20px 5px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+[data-reach-combobox-input] {
+  width: 375px;
+}
+
+.search-combo-box .t-input {
+  background-image: url("/icons/search.svg");
+  background-repeat: no-repeat;
+  background-position: right;
 }

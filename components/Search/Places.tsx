@@ -34,8 +34,6 @@ function Places({ setLocation }: PlacesProps) {
     setLocation({ lat, lng });
   };
 
-  console.log("value", value);
-
   return (
     <Combobox onSelect={handleSelect}>
       <ComboboxInput
@@ -43,7 +41,7 @@ function Places({ setLocation }: PlacesProps) {
         onChange={(e) => setValue(e.target.value)}
         disabled={!ready}
         className="combobox-input"
-        placeholder="What are you looking for?"
+        placeholder="Find nearby places to address your needs"
       />
       <ComboboxPopover>
         <ComboboxList>
