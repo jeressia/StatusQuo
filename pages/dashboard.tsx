@@ -18,30 +18,30 @@ function Home() {
   const [userId, setUserId] = useState<null | string>(null);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  return (
-    <div className="App">
-      <Search />
-    </div>
-  );
-  // return loggedIn ? (
+  // return (
   //   <div className="App">
-  //     <Dashboard
-  //       user={user}
-  //       userId={userId}
-  //       appointments={appointments}
-  //       setAppointments={setAppointments}
-  //     />
-  //   </div>
-  // ) : (
-  //   <div className="App">
-  //     <Auth
-  //       setLoggedIn={setLoggedIn}
-  //       loggedIn={loggedIn}
-  //       setUserId={setUserId}
-  //       setUser={setUser}
-  //     />
+  //     <Search />
   //   </div>
   // );
+  return loggedIn ? (
+    <div className="App">
+      <Dashboard
+        user={user}
+        userId={userId}
+        appointments={appointments}
+        setAppointments={setAppointments}
+      />
+    </div>
+  ) : (
+    <div className="App">
+      <Auth
+        setLoggedIn={setLoggedIn}
+        loggedIn={loggedIn}
+        setUserId={setUserId}
+        setUser={setUser}
+      />
+    </div>
+  );
 }
 
 export default Home;
