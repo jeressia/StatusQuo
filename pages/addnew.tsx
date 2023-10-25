@@ -1,8 +1,8 @@
 import React from "react";
-import AddAppointments from "../components/Appointments/AddEvents";
+import AddEvents from "../components/Appointments/AddEvents";
 
 function addnew() {
-  return <AddAppointments />;
+  return <AddEvents />;
 }
 
 export default addnew;

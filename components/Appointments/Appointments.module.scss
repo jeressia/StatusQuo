@@ -40,3 +40,7 @@
 
   @include softGlow(rgba(255, 0, 0, 0.7));
 }
+
+.react-datepicker-wrapper {
+  width: 100% !important;
+}

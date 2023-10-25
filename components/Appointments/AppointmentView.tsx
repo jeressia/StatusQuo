@@ -14,7 +14,7 @@ import { auth, db } from "../../utils/firebase";
 import styles from "./Appointments.module.scss";
 import UpdateAppointment from "./UpdateAppointment";
 import DeleteAppointment from "./DeleteAppointment";
-import AddAppointments from "./AddEvents";
+import AddEvents from "./AddEvents";
 import { timeNormalizer } from "../../utils/math";
 import Link from "next/link";
 
@@ -28,8 +28,6 @@ function AppointmentView(props: AppointmentProps) {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const { appointments, userId, setAppointments } = props;
 
-  const appointmentsCollection = collection(db, "appointments");
-
   const appointmentsByUser = query(
     collection(db, "appointments"),
     where("user_id", "==", userId)
@@ -42,23 +40,10 @@ function AppointmentView(props: AppointmentProps) {
         ...doc.data(),
         id: doc.id,
       }));
+
       setAppointments(filterData);
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const onSubmitAppointment = async () => {
-    try {
-      await addDoc(appointmentsCollection, {
-        appointment_description: "Checkup",
-        appointment_end_at: new Date("December 17, 2023 03:30:00"),
-        appointment_start_at: new Date(new Date("December 17, 2023 04:30:00")),
-        user_id: auth?.currentUser?.uid,
-      });
-      getAppointments();
-    } catch (error) {
-      console.error(error);
     }
   };
 
@@ -105,7 +90,6 @@ function AppointmentView(props: AppointmentProps) {
       <Link className="nav-link" href={`/addnew`}>
         + Add
       </Link>
-      {/* <AddAppointments onSubmitAppointment={onSubmitAppointment} /> */}
     </div>
   );
 }

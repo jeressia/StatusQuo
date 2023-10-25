@@ -4,7 +4,7 @@ import Layout from "../../layout/Layout";
 import styles from "./Records.module.scss";
 import RecordsReminders from "./RecordsReminders";
 import { Appointment } from "../../pages/dashboard";
-import AddAppointments from "../Appointments/AddEvents";
+import AddEvents from "../Appointments/AddEvents";
 import Link from "next/link";
 
 export interface Reminder {
