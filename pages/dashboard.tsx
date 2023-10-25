@@ -19,11 +19,11 @@ function Home() {
   const [userId, setUserId] = useState<null | string>(null);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  return (
-    <div className="App">
-      <Records />
-    </div>
-  );
+  // return (
+  //   <div className="App">
+  //     <Records />
+  //   </div>
+  // );
   return loggedIn ? (
     <div className="App">
       <Dashboard

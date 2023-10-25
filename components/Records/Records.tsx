@@ -3,6 +3,9 @@ import Layout from "../../layout/Layout";
 
 import styles from "./Records.module.scss";
 import RecordsReminders from "./RecordsReminders";
+import { Appointment } from "../../pages/dashboard";
+import AddAppointments from "../Appointments/AddAppointments";
+import Link from "next/link";
 
 export interface Reminder {
   reminder_type: string; //Rx Refill Soon, Rx Last Refill, Appt need to be scheduled
@@ -26,11 +29,15 @@ const Records = () => {
       medication: "Ozempic",
     },
   ]);
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
+
   const view = () => (
     <div className={styles.Records}>
       <div className={styles.recordsHeader}>
         <h1>Records</h1>
-        <button className={styles.addBtn}>+ ADD</button>
+        <Link className="nav-link" href={`/addnew`}>
+          + Add
+        </Link>
       </div>
       <RecordsReminders reminders={reminders} />
     </div>

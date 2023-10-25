@@ -16,6 +16,7 @@ import UpdateAppointment from "./UpdateAppointment";
 import DeleteAppointment from "./DeleteAppointment";
 import AddAppointments from "./AddAppointments";
 import { timeNormalizer } from "../../utils/math";
+import Link from "next/link";
 
 interface AppointmentProps {
   appointments: Appointment[];
@@ -101,7 +102,10 @@ function AppointmentView(props: AppointmentProps) {
         <p>No upcoming appointments</p>
       )}
 
-      <AddAppointments onSubmitAppointment={onSubmitAppointment} />
+      <Link className="nav-link" href={`/addnew`}>
+        + Add
+      </Link>
+      {/* <AddAppointments onSubmitAppointment={onSubmitAppointment} /> */}
     </div>
   );
 }
