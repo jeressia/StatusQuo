@@ -1,3 +1,7 @@
+@mixin softGlow($color) {
+  box-shadow: 0 0 10px $color; // Adjust the size and color as needed
+}
+
 .addnew {
   margin: 0 auto;
   height: 100vh;
@@ -25,4 +29,14 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.active {
+  @extend .addNewType;
+
+  @include softGlow(rgba(255, 0, 0, 0.7));
 }

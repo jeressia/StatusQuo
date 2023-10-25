@@ -34,7 +34,11 @@ function AddEvents(props: any) {
           {eventTypes.map((eventType) => (
             <div
               onClick={() => setTypeOfEventToAdd(eventType.event_type)}
-              className={styles.addNewType}
+              className={
+                typeOfEventToAdd === eventType.event_type
+                  ? styles.active
+                  : styles.addNewType
+              }
               key={eventType.id}
             >
               <img src={eventType.icon} alt="" />
