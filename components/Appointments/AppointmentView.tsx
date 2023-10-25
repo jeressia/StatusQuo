@@ -14,7 +14,7 @@ import { auth, db } from "../../utils/firebase";
 import styles from "./Appointments.module.scss";
 import UpdateAppointment from "./UpdateAppointment";
 import DeleteAppointment from "./DeleteAppointment";
-import AddAppointments from "./AddAppointments";
+import AddAppointments from "./AddEvents";
 import { timeNormalizer } from "../../utils/math";
 import Link from "next/link";
 
