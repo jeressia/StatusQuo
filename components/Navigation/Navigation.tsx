@@ -8,7 +8,7 @@ const Navigation = () => {
   return (
     <footer>
       <ul className="allFooterButtons">
-        {["Dashboard", "Calendar", "Search", "Profile"].map((name, i) => {
+        {["Dashboard", "Records", "Search", "Profile"].map((name, i) => {
           const lc = name.toLowerCase();
 
           return (

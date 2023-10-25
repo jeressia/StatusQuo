@@ -1,0 +1,24 @@
+.Records {
+  height: 100vh;
+  width: 100%;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.recordsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.reminderDoctorCard,
+.reminderPrescriptionCard {
+  display: flex;
+}
+
+.doctorIcon,
+.RxIcon {
+  width: 50px;
+}

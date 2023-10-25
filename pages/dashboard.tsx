@@ -3,6 +3,7 @@ import Dashboard from "../components/Dashboard/Dashboard";
 import Auth from "../components/Auth/Auth";
 import { Timestamp } from "firebase/firestore";
 import Search from "../components/Search/Search";
+import Records from "../components/Records/Records";
 
 export interface Appointment {
   id: string;
@@ -18,11 +19,11 @@ function Home() {
   const [userId, setUserId] = useState<null | string>(null);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  // return (
-  //   <div className="App">
-  //     <Search />
-  //   </div>
-  // );
+  return (
+    <div className="App">
+      <Records />
+    </div>
+  );
   return loggedIn ? (
     <div className="App">
       <Dashboard
