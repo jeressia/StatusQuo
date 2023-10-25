@@ -146,3 +146,12 @@ p.footerIcon {
   background-repeat: no-repeat;
   background-position: right;
 }
+
+.add-data {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-row {
+  display: flex;
+}

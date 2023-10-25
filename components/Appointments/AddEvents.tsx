@@ -21,7 +21,7 @@ function AddEvents(props: any) {
     { id: 2, event_type: "Sexual Relations", icon: "/sexualrelations.svg" },
     { id: 3, event_type: "Test Results", icon: "/testresults.svg" },
     { id: 4, event_type: "Symptom", icon: "/symptom.svg" },
-    { id: 5, event_type: "Medication", icon: "/.svg" },
+    // { id: 5, event_type: "Medication", icon: "/.svg" },
   ];
 
   console.log("typeOfEventToAdd:", typeOfEventToAdd);

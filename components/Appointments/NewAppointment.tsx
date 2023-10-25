@@ -5,3 +5,7 @@ function NewAppointment() {
 }
 
 export default NewAppointment;
+
+//    timeInputLabel = "Time:";
+//    dateFormat = "MM/dd/yyyy h:mm aa";
+//    showTimeInput;
