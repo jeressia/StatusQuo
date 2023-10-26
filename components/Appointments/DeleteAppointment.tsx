@@ -1,5 +1,4 @@
 import React from "react";
-import { Appointment } from "../../pages/dashboard";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 

@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import DatePicker, { ReactDatePicker } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import Form from "react-bootstrap/Form";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { Appointment } from "../../pages/dashboard";
-import { Timestamp } from "firebase/firestore/lite";
 
-interface NewEventProps {
+export interface NewEventProps {
   onSubmitEvent: (
     e: React.FormEvent<HTMLFormElement>,
     collectionType: string,

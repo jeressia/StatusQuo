@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Appointment } from "../../pages/dashboard";
 import {
-  addDoc,
   collection,
   doc,
   getDocs,
@@ -14,7 +13,6 @@ import { auth, db } from "../../utils/firebase";
 import styles from "./Appointments.module.scss";
 import UpdateAppointment from "./UpdateAppointment";
 import DeleteAppointment from "./DeleteAppointment";
-import AddEvents from "./AddEvents";
 import { timeNormalizer } from "../../utils/math";
 import Link from "next/link";
 
@@ -37,7 +35,11 @@ function AppointmentView(props: AppointmentProps) {
     try {
       const data = await getDocs(appointmentsByUser);
       const filterData = data.docs.map((doc) => ({
-        ...doc.data(),
+        appointment_title: doc.data().appointment_title as string,
+        appointment_end_at: doc.data().appointment_end_at as Date,
+        appointment_start_at: doc.data().appointment_start_at as Date,
+        appointment_purpose: doc.data().appointment_purpose as string,
+        appointment_doctor: doc.data().appointment_doctors as string,
         id: doc.id,
       }));
 
@@ -66,9 +68,7 @@ function AppointmentView(props: AppointmentProps) {
         <ul>
           {appointments.map((appointment: Appointment) => (
             <>
-              <li key={appointment.id}>
-                {appointment.appointment_description}
-              </li>
+              <li key={appointment.id}>{appointment.appointment_title}</li>
               <p>{timeNormalizer(appointment?.appointment_start_at)}</p>
               <UpdateAppointment
                 appointment={appointment}

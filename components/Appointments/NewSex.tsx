@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import DatePicker, { ReactDatePicker } from "react-datepicker";
+import DatePicker from "react-datepicker";
 import Form from "react-bootstrap/Form";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Appointment } from "../../pages/dashboard";
 import { Timestamp } from "firebase/firestore/lite";
+import { NewEventProps } from "./NewTestResults";
 
 interface PartnerStatus {
   id: number;
@@ -17,14 +18,6 @@ interface SexualRelations {
   partner_name: string;
   partner_number: string;
   partner_status: string;
-}
-
-interface NewEventProps {
-  onSubmitEvent: (
-    e: React.FormEvent<HTMLFormElement>,
-    collectionType: string,
-    data: any
-  ) => void;
 }
 
 function NewSex(props: NewEventProps) {

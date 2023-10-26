@@ -1,23 +1,9 @@
 import React, { useState } from "react";
 import DatePicker, { ReactDatePicker } from "react-datepicker";
-import Form from "react-bootstrap/Form";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Appointment } from "../../pages/dashboard";
-import { Timestamp } from "firebase/firestore/lite";
-
-interface PartnerStatus {
-  id: number;
-  statusName: string;
-}
-
-interface NewEventProps {
-  onSubmitEvent: (
-    e: React.FormEvent<HTMLFormElement>,
-    collectionType: string,
-    data: any
-  ) => void;
-}
+import { NewEventProps } from "./NewTestResults";
 
 function NewAppointment(props: NewEventProps) {
   const { onSubmitEvent } = props;
@@ -28,6 +14,7 @@ function NewAppointment(props: NewEventProps) {
   const [doctor, setDoctor] = useState("");
 
   const appointmentToCreate: Appointment = {
+    id: null,
     appointment_title: title,
     appointment_end_at: endDate,
     appointment_start_at: startDate,

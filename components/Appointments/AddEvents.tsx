@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Layout from "../../layout/Layout";
 
@@ -8,13 +7,11 @@ import NewSex from "./NewSex";
 import NewTestResults from "./NewTestResults";
 import NewSymptom from "./NewSymptom";
 import NewMedication from "./NewMedication";
-import { Appointment } from "../../pages/dashboard";
 import {
   CollectionReference,
   DocumentData,
   addDoc,
   collection,
-  getDocs,
 } from "firebase/firestore";
 import { auth, db } from "../../utils/firebase";
 
@@ -22,16 +19,16 @@ function AddEvents() {
   const [typeOfEventToAdd, setTypeOfEventToAdd] = useState<string>("");
   const [currentCollection, setCurrentCollection] = useState("");
   const [cleanedUpData, setCleanedUpData] = useState<any>();
+
   const eventTypes = [
     { id: 1, event_type: "Appointment", icon: "/appointment.svg" },
     { id: 2, event_type: "Sexual Relations", icon: "/sexualrelations.svg" },
     { id: 3, event_type: "Test Results", icon: "/testresults.svg" },
     { id: 4, event_type: "Symptom", icon: "/symptom.svg" },
-    // { id: 5, event_type: "Medication", icon: "/.svg" },
+    { id: 5, event_type: "Medication", icon: "/.svg" },
   ];
 
   useEffect(() => {
-    console.log("cleanedUpData changed", cleanedUpData);
     if (cleanedUpData) {
       try {
         addDoc(fireBaseCollection(currentCollection), {
@@ -106,6 +103,8 @@ function AddEvents() {
           prescribing_doctor: data.prescribing_doctor,
           medication_name: data.medication_name,
           medication_dosage: data.medication_dosage,
+          medication_frequency: data.medication_frequency,
+          medication_method: data.medication_method,
           day_supply: data.day_supply,
           user_id: auth?.currentUser?.uid,
         });
@@ -144,7 +143,7 @@ function AddEvents() {
           ) : typeOfEventToAdd === "Symptom" ? (
             <NewSymptom onSubmitEvent={onSubmitEvent} />
           ) : typeOfEventToAdd === "Medication" ? (
-            <NewMedication />
+            <NewMedication onSubmitEvent={onSubmitEvent} />
           ) : (
             ""
           )}
