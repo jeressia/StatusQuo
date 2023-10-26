@@ -8,18 +8,22 @@ import { auth } from "../../utils/firebase";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import styles from "./Auth.module.scss";
+import { userInfo } from "os";
 
 interface AuthProps {
   setLoggedIn: any;
   loggedIn: boolean;
   setUserId: Dispatch<SetStateAction<string | null>>;
   setUser: Dispatch<SetStateAction<string | null>>;
+  userId: string | null;
 }
 
 const Auth = (props: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { setLoggedIn, loggedIn, setUserId, setUser } = props;
+
+  console.log("userId: in auth", props.userId);
 
   const handleSignIn = async () => {
     try {

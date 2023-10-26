@@ -3,7 +3,7 @@ import "firebase/auth";
 import Layout from "../../layout/Layout";
 
 import { Appointment } from "../../pages/dashboard";
-import AppointmentView from "../Appointments/AppointmentView";
+import AppointmentView from "../Events/EventView";
 
 import styles from "./Dashboard.module.scss";
 import QRView from "../QR/QRView";

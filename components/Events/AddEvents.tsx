@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../layout/Layout";
 
-import styles from "./Appointments.module.scss";
 import NewAppointment from "./NewAppointment";
 import NewSex from "./NewSex";
 import NewTestResults from "./NewTestResults";
@@ -14,6 +13,8 @@ import {
   collection,
 } from "firebase/firestore";
 import { auth, db } from "../../utils/firebase";
+
+import styles from "./Events.module.scss";
 
 function AddEvents() {
   const [typeOfEventToAdd, setTypeOfEventToAdd] = useState<string>("");

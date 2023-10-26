@@ -10,11 +10,12 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../../utils/firebase";
 
-import styles from "./Appointments.module.scss";
 import UpdateAppointment from "./UpdateAppointment";
-import DeleteAppointment from "./DeleteAppointment";
+import DeleteAppointment from "./DeleteEvent";
 import { timeNormalizer } from "../../utils/math";
 import Link from "next/link";
+
+import styles from "./Events.module.scss";
 
 interface AppointmentProps {
   appointments: Appointment[];
@@ -26,6 +27,7 @@ function AppointmentView(props: AppointmentProps) {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const { appointments, userId, setAppointments } = props;
 
+  console.log(userId);
   const appointmentsByUser = query(
     collection(db, "appointments"),
     where("user_id", "==", userId)
