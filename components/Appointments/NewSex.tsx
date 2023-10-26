@@ -4,18 +4,27 @@ import Form from "react-bootstrap/Form";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { Appointment } from "../../pages/dashboard";
+import { Timestamp } from "firebase/firestore/lite";
 
 interface PartnerStatus {
   id: number;
   statusName: string;
 }
 
+interface SexualRelations {
+  date_of_relations: Timestamp;
+  isProtected: boolean;
+  partner_name: string;
+  partner_number: string;
+  partner_status: string;
+}
+
 interface NewEventProps {
   onSubmitEvent: (
-    e: React.FormEvent<HTMLFormElement>,
-    collection: string,
-    sexualRelationsToCreate: any
-  ) => Promise<void>;
+    // e: React.FormEvent<HTMLFormElement>,
+    collectionType: string,
+    data: any
+  ) => void;
 }
 
 function NewSex(props: NewEventProps) {
@@ -27,10 +36,11 @@ function NewSex(props: NewEventProps) {
   const [protectedSex, setProtectedSex] = useState(false);
 
   const sexualRelationsToCreate = {
-    appointment_description: "string",
-    appointment_end_at: "Timestamp",
-    appointment_start_at: "Timestamp",
-    userId: "string",
+    date_of_relations: startDate,
+    isProtected: protectedSex,
+    partner_name: partnerName,
+    partner_number: partnerNumber,
+    partner_status: partnerStatus,
   };
 
   const handleToggle: React.ChangeEventHandler<HTMLInputElement> = () => {

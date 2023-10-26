@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../layout/Layout";
 
 import styles from "./Appointments.module.scss";
@@ -20,6 +20,7 @@ import { auth, db } from "../../utils/firebase";
 
 function AddEvents() {
   const [typeOfEventToAdd, setTypeOfEventToAdd] = useState<string>("");
+  const [currentCollection, setCurrentCollection] = useState("");
   const [cleanedUpData, setCleanedUpData] = useState<any>();
   const eventTypes = [
     { id: 1, event_type: "Appointment", icon: "/appointment.svg" },
@@ -29,11 +30,25 @@ function AddEvents() {
     // { id: 5, event_type: "Medication", icon: "/.svg" },
   ];
 
-  const currentCollection = (
+  useEffect(() => {
+    if (cleanedUpData) {
+      // cleanedUpData is defined, so you can perform the addDoc operation
+      try {
+        addDoc(fireBaseCollection(currentCollection), {
+          cleanedUpData,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  }, [cleanedUpData]);
+
+  const fireBaseCollection = (
     collectionType: string
   ): CollectionReference<DocumentData> => collection(db, collectionType);
 
-  const fieldsToSubmit = (collectionType: string, data: any) => {
+  const onSubmitEvent = (e: any, collectionType: string, data: any) => {
+    e.preventDefault();
     switch (collectionType) {
       case "appointment":
         setCleanedUpData({
@@ -44,10 +59,11 @@ function AddEvents() {
         });
         break;
       case "sexual_relations":
+        setCurrentCollection("sexual_relations");
         setCleanedUpData({
-          date_of_relations: data.date,
+          date_of_relations: data.date_of_relations,
           isProtected: data.isProtected,
-          partner_name: data.appointment_start_at,
+          partner_name: data.partner_name,
           partner_number: data.partner_number,
           partner_status: data.partner_status,
           user_id: auth?.currentUser?.uid,
@@ -68,21 +84,21 @@ function AddEvents() {
     }
   };
 
-  const onSubmitEvent = async (
-    e: React.FormEvent<HTMLFormElement>,
-    collection: string,
-    data: any
-  ) => {
-    e.preventDefault();
-    fieldsToSubmit(collection, data);
-    try {
-      await addDoc(currentCollection(collection), {
-        cleanedUpData,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const onSubmitEvent = async (
+  //   e: React.FormEvent<HTMLFormElement>,
+  //   collection: string,
+  //   data: any
+  // ) => {
+  //   e.preventDefault();
+  //   await fieldsToSubmit(collection, data);
+  //   try {
+  //     await addDoc(currentCollection(collection), {
+  //       cleanedUpData,
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
   const view = () => {
     return (
       <div className={styles.addnew}>
