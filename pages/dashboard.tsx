@@ -6,11 +6,11 @@ import Search from "../components/Search/Search";
 import Records from "../components/Records/Records";
 
 export interface Appointment {
-  id: string;
-  appointment_description?: string;
-  appointment_end_at?: Timestamp;
-  appointment_start_at?: Timestamp;
-  userId?: string;
+  appointment_title: string;
+  appointment_end_at: Date;
+  appointment_start_at: Date;
+  appointment_purpose: string;
+  appointment_doctor: string;
 }
 
 function Home() {

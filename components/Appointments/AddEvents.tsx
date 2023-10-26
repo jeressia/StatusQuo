@@ -31,8 +31,8 @@ function AddEvents() {
   ];
 
   useEffect(() => {
+    console.log("cleanedUpData changed", cleanedUpData);
     if (cleanedUpData) {
-      // cleanedUpData is defined, so you can perform the addDoc operation
       try {
         addDoc(fireBaseCollection(currentCollection), {
           cleanedUpData,
@@ -50,11 +50,15 @@ function AddEvents() {
   const onSubmitEvent = (e: any, collectionType: string, data: any) => {
     e.preventDefault();
     switch (collectionType) {
-      case "appointment":
+      case "appointments":
+        console.log(collectionType, data);
+        setCurrentCollection("appointments");
         setCleanedUpData({
-          appointment_description: data.appointment_description,
-          appointment_end_at: data.appointment_end_at,
+          appointment_title: data.appointment_title,
           appointment_start_at: data.appointment_start_at,
+          appointment_end_at: data.appointment_end_at,
+          appointment_purpose: data.appointment_purpose,
+          appointment_doctor: data.appointment_doctor,
           user_id: auth?.currentUser?.uid,
         });
         break;
@@ -68,15 +72,35 @@ function AddEvents() {
           partner_status: data.partner_status,
           user_id: auth?.currentUser?.uid,
         });
-        console.log("submitting new sex", cleanedUpData);
         break;
       case "test_results":
-        // code block
+        setCurrentCollection("sexual_relations");
+        setCleanedUpData({
+          date_of_test: data.date_of_test,
+          test_type: data.test_type,
+          chlamydia: data.chlamydia,
+          gonorrhea: data.gonorrhea,
+          hep_c: data.hep_c,
+          herpes: data.herpes,
+          hiv: data.hiv,
+          syphillis: data.syphillis,
+          trichomoniasis: data.trichomoniasis,
+          user_id: auth?.currentUser?.uid,
+        });
         break;
       case "symptoms":
+        setCurrentCollection("sexual_relations");
+        setCleanedUpData({
+          date_started: data.date_started,
+          date_ended: data.date_ended,
+          photo_upload_url: data.photo_upload_url,
+          type_of_symptom: data.type_of_symptom,
+          user_id: auth?.currentUser?.uid,
+        });
         // code block
         break;
       case "medications":
+        setCurrentCollection("sexual_relations");
         // code block
         break;
       default:
@@ -84,21 +108,6 @@ function AddEvents() {
     }
   };
 
-  // const onSubmitEvent = async (
-  //   e: React.FormEvent<HTMLFormElement>,
-  //   collection: string,
-  //   data: any
-  // ) => {
-  //   e.preventDefault();
-  //   await fieldsToSubmit(collection, data);
-  //   try {
-  //     await addDoc(currentCollection(collection), {
-  //       cleanedUpData,
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
   const view = () => {
     return (
       <div className={styles.addnew}>
@@ -121,7 +130,7 @@ function AddEvents() {
         </div>
         <div className={styles.newForm}>
           {typeOfEventToAdd === "Appointment" ? (
-            <NewAppointment />
+            <NewAppointment onSubmitEvent={onSubmitEvent} />
           ) : typeOfEventToAdd === "Sexual Relations" ? (
             <NewSex onSubmitEvent={onSubmitEvent} />
           ) : typeOfEventToAdd === "Test Results" ? (

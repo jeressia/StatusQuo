@@ -21,7 +21,7 @@ interface SexualRelations {
 
 interface NewEventProps {
   onSubmitEvent: (
-    // e: React.FormEvent<HTMLFormElement>,
+    e: React.FormEvent<HTMLFormElement>,
     collectionType: string,
     data: any
   ) => void;
@@ -46,14 +46,6 @@ function NewSex(props: NewEventProps) {
   const handleToggle: React.ChangeEventHandler<HTMLInputElement> = () => {
     setProtectedSex((prevState) => !prevState);
   };
-
-  console.log(
-    partnerName,
-    partnerNumber,
-    partnerStatus,
-    protectedSex,
-    startDate
-  );
 
   return (
     <form>
