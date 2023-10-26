@@ -74,7 +74,7 @@ function AddEvents() {
         });
         break;
       case "test_results":
-        setCurrentCollection("sexual_relations");
+        setCurrentCollection("test_results");
         setCleanedUpData({
           date_of_test: data.date_of_test,
           test_type: data.test_type,
@@ -84,7 +84,7 @@ function AddEvents() {
           herpes: data.herpes,
           hiv: data.hiv,
           syphillis: data.syphillis,
-          trichomoniasis: data.trichomoniasis,
+          trichomoniasis: data.trich,
           user_id: auth?.currentUser?.uid,
         });
         break;
@@ -134,7 +134,7 @@ function AddEvents() {
           ) : typeOfEventToAdd === "Sexual Relations" ? (
             <NewSex onSubmitEvent={onSubmitEvent} />
           ) : typeOfEventToAdd === "Test Results" ? (
-            <NewTestResults />
+            <NewTestResults onSubmitEvent={onSubmitEvent} />
           ) : typeOfEventToAdd === "Symptom" ? (
             <NewSymptom />
           ) : typeOfEventToAdd === "Medication" ? (
