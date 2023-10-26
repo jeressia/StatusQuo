@@ -89,7 +89,7 @@ function AddEvents() {
         });
         break;
       case "symptoms":
-        setCurrentCollection("sexual_relations");
+        setCurrentCollection("symptoms");
         setCleanedUpData({
           date_started: data.date_started,
           date_ended: data.date_ended,
@@ -97,14 +97,20 @@ function AddEvents() {
           type_of_symptom: data.type_of_symptom,
           user_id: auth?.currentUser?.uid,
         });
-        // code block
         break;
       case "medications":
-        setCurrentCollection("sexual_relations");
-        // code block
+        setCurrentCollection("medications");
+        setCleanedUpData({
+          date_prescribed: data.date_prescribed,
+          date_filled: data.date_filled,
+          prescribing_doctor: data.prescribing_doctor,
+          medication_name: data.medication_name,
+          medication_dosage: data.medication_dosage,
+          day_supply: data.day_supply,
+          user_id: auth?.currentUser?.uid,
+        });
         break;
       default:
-      // code block
     }
   };
 
@@ -136,7 +142,7 @@ function AddEvents() {
           ) : typeOfEventToAdd === "Test Results" ? (
             <NewTestResults onSubmitEvent={onSubmitEvent} />
           ) : typeOfEventToAdd === "Symptom" ? (
-            <NewSymptom />
+            <NewSymptom onSubmitEvent={onSubmitEvent} />
           ) : typeOfEventToAdd === "Medication" ? (
             <NewMedication />
           ) : (
