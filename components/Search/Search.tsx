@@ -1,14 +1,16 @@
 import React from "react";
 import Layout from "../../layout/Layout";
-import { useLoadScript } from "@react-google-maps/api";
+import { Libraries, useLoadScript } from "@react-google-maps/api";
 import Map from "./Map";
 
 import styles from "./Search.module.scss";
 
+const libraries: Libraries = ["places"];
+
 const Search = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",
-    libraries: ["places"],
+    libraries: libraries,
   });
 
   const view = () =>

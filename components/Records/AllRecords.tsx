@@ -14,7 +14,7 @@ function AllRecords() {
     "test_results",
   ];
 
-  console.log("userId in all records", userId);
+  // console.log("userId in all records", userId);
   const fetchDataForUser = async (
     collectionName: string,
     userId: string | null
