@@ -3,6 +3,7 @@ import Head from "next/head";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../styles/globals.scss";
+import { UserProvider } from "../components/UserProvider";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -11,9 +12,11 @@ function MyApp({ Component, pageProps }: AppProps) {
         <title>StatusQuo</title>
         <link rel="shortcut icon" href="/favicon.png" />
       </Head>
-      <div>
-        <Component {...pageProps} />
-      </div>
+      <UserProvider>
+        <div>
+          <Component {...pageProps} />
+        </div>
+      </UserProvider>
     </>
   );
 }

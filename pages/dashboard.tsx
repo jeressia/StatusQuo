@@ -1,28 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Dashboard from "../components/Dashboard/Dashboard";
 import Auth from "../components/Auth/Auth";
-import { Timestamp } from "firebase/firestore";
-import Search from "../components/Search/Search";
-
-export interface Appointment {
-  id: string;
-  appointment_description?: string;
-  appointment_end_at?: Timestamp;
-  appointment_start_at?: Timestamp;
-  userId?: string;
-}
+import { Appointment } from "../types/Interfaces";
+import { useUser } from "../components/UserProvider";
 
 function Home() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState<null | string>("");
-  const [userId, setUserId] = useState<null | string>(null);
+  const { loggedIn, user, userId } = useUser();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  // return (
-  //   <div className="App">
-  //     <Search />
-  //   </div>
-  // );
   return loggedIn ? (
     <div className="App">
       <Dashboard
@@ -34,12 +19,7 @@ function Home() {
     </div>
   ) : (
     <div className="App">
-      <Auth
-        setLoggedIn={setLoggedIn}
-        loggedIn={loggedIn}
-        setUserId={setUserId}
-        setUser={setUser}
-      />
+      <Auth />
     </div>
   );
 }

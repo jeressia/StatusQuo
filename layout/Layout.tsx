@@ -5,6 +5,7 @@ export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <div>
       <div className="mobile-container">
+        <img src="/favicon.png" alt="" />
         {children}
         <Navigation />
       </div>

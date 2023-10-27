@@ -1,14 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styles from "./Navigation.module.scss";
 
 const Navigation = () => {
   const router = useRouter();
   return (
     <footer>
       <ul className="allFooterButtons">
-        {["Dashboard", "Calendar", "Search", "Profile"].map((name, i) => {
+        {["Dashboard", "Records", "Search", "Profile"].map((name, i) => {
           const lc = name.toLowerCase();
 
           return (

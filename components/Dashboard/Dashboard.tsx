@@ -1,22 +1,21 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import "firebase/auth";
 import Layout from "../../layout/Layout";
 
-import { Appointment } from "../../pages/dashboard";
-import AppointmentView from "../Appointments/AppointmentView";
+import { Appointment } from "../../types/Interfaces";
+import AppointmentView from "../Events/EventView";
 
 import styles from "./Dashboard.module.scss";
 import QRView from "../QR/QRView";
 
 interface DashboardProps {
-  user: string | null;
+  user: any;
   userId: string | null;
   appointments: Appointment[];
   setAppointments: Dispatch<SetStateAction<Appointment[]>>;
 }
 
 const Dashboard = (props: DashboardProps) => {
-  const { user, appointments, userId, setAppointments } = props;
+  const { appointments, user, userId, setAppointments } = props;
   const [loading, setLoading] = useState(false);
 
   const view = () =>
@@ -25,7 +24,7 @@ const Dashboard = (props: DashboardProps) => {
     ) : (
       <div className={styles.dashboard}>
         <div className={styles.greeting}>
-          <p>Hello, {user}! </p>
+          <p>Hello, {user.name ? user.name : "New User"}! </p>
         </div>
         <AppointmentView
           appointments={appointments}

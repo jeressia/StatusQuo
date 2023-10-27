@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Appointment } from "../../pages/dashboard";
+import { Appointment } from "../../types/Interfaces";
 import {
-  addDoc,
   collection,
   doc,
   getDocs,
@@ -9,13 +8,15 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../../utils/firebase";
+import { db } from "../../utils/firebase";
 
-import styles from "./Appointments.module.scss";
 import UpdateAppointment from "./UpdateAppointment";
-import DeleteAppointment from "./DeleteAppointment";
-import AddAppointments from "./AddAppointments";
+import DeleteAppointment from "./DeleteEvent";
 import { timeNormalizer } from "../../utils/math";
+import Link from "next/link";
+
+import styles from "./Events.module.scss";
+import { useUser } from "../UserProvider";
 
 interface AppointmentProps {
   appointments: Appointment[];
@@ -24,15 +25,25 @@ interface AppointmentProps {
 }
 
 function AppointmentView(props: AppointmentProps) {
-  const [updatedTitle, setUpdatedTitle] = useState("");
-  const { appointments, userId, setAppointments } = props;
+  const { userId } = useUser();
 
-  const appointmentsCollection = collection(db, "appointments");
+  const [updatedTitle, setUpdatedTitle] = useState("");
+  const { appointments, setAppointments } = props;
+
+  const collectionRef = collection(db, "appointments");
 
   const appointmentsByUser = query(
     collection(db, "appointments"),
     where("user_id", "==", userId)
   );
+
+  const updateAppointment = async (id: string) => {
+    const appointmentToUpdate = doc(db, "appointments", id);
+    await updateDoc(appointmentToUpdate, {
+      appointment_description: updatedTitle,
+    });
+    getAppointments();
+  };
 
   const getAppointments = async () => {
     try {
@@ -41,32 +52,10 @@ function AppointmentView(props: AppointmentProps) {
         ...doc.data(),
         id: doc.id,
       }));
-      setAppointments(filterData);
+      setAppointments(filterData as any);
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const onSubmitAppointment = async () => {
-    try {
-      await addDoc(appointmentsCollection, {
-        appointment_description: "Checkup",
-        appointment_end_at: new Date("December 17, 2023 03:30:00"),
-        appointment_start_at: new Date(new Date("December 17, 2023 04:30:00")),
-        user_id: auth?.currentUser?.uid,
-      });
-      getAppointments();
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const updateAppointment = async (id: string) => {
-    const appointmentToUpdate = doc(db, "appointments", id);
-    await updateDoc(appointmentToUpdate, {
-      appointment_description: updatedTitle,
-    });
-    getAppointments();
   };
 
   useEffect(() => {
@@ -79,11 +68,9 @@ function AppointmentView(props: AppointmentProps) {
       {appointments && appointments.length > 0 ? (
         <ul>
           {appointments.map((appointment: Appointment) => (
-            <>
-              <li key={appointment.id}>
-                {appointment.appointment_description}
-              </li>
-              <p>{timeNormalizer(appointment?.appointment_start_at)}</p>
+            <div key={appointment.id}>
+              <li>{appointment.appointment_title}</li>
+              {/* <p>{timeNormalizer(appointment?.appointment_start_at)}</p> */}
               <UpdateAppointment
                 appointment={appointment}
                 updateAppointment={updateAppointment}
@@ -91,17 +78,19 @@ function AppointmentView(props: AppointmentProps) {
                 setUpdatedTitle={setUpdatedTitle}
               />
               <DeleteAppointment
-                getAppointments={getAppointments}
+                // getAppointments={getAppointments}
                 appointment={appointment}
               />
-            </>
+            </div>
           ))}
         </ul>
       ) : (
         <p>No upcoming appointments</p>
       )}
 
-      <AddAppointments onSubmitAppointment={onSubmitAppointment} />
+      <Link className="nav-link" href={`/addnew`}>
+        + Add
+      </Link>
     </div>
   );
 }
