@@ -14,12 +14,7 @@ function AllRecords() {
     "test_results",
   ];
 
-  useEffect(() => {
-    fetchAllUserData(userId).then((combinedUserData) => {
-      // setAllRecords(combinedUserData);
-    });
-  }, []);
-
+  console.log("userId in all records", userId);
   const fetchDataForUser = async (
     collectionName: string,
     userId: string | null
@@ -38,20 +33,24 @@ function AllRecords() {
     return data;
   };
 
-  const fetchAllUserData = async (userId: string | null) => {
-    const userDataPromises = collectionNames.map((collectionName) =>
-      fetchDataForUser(collectionName, userId)
-    );
-    const allUserData = await Promise.all(userDataPromises);
-    setAllRecords(allUserData.flat());
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const userDataPromises = collectionNames.map((collectionName) =>
+        fetchDataForUser(collectionName, userId)
+      );
+      const allUserData = await Promise.all(userDataPromises);
+      const flattenedData = allUserData.flat();
+      setAllRecords(flattenedData);
+    };
+
+    fetchData();
+  }, [userId]);
 
   return (
     <div>
       {allRecords.map((record: any) => (
         <div key={record.id}>
           <p>Appointment Doctor: {record.appointment_doctor}</p>
-          {/* Add more properties as needed */}
         </div>
       ))}
     </div>

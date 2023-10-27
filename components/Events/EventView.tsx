@@ -68,8 +68,8 @@ function AppointmentView(props: AppointmentProps) {
       {appointments && appointments.length > 0 ? (
         <ul>
           {appointments.map((appointment: Appointment) => (
-            <>
-              <li key={appointment.id}>{appointment.appointment_title}</li>
+            <div key={appointment.id}>
+              <li>{appointment.appointment_title}</li>
               {/* <p>{timeNormalizer(appointment?.appointment_start_at)}</p> */}
               <UpdateAppointment
                 appointment={appointment}
@@ -81,7 +81,7 @@ function AppointmentView(props: AppointmentProps) {
                 // getAppointments={getAppointments}
                 appointment={appointment}
               />
-            </>
+            </div>
           ))}
         </ul>
       ) : (
