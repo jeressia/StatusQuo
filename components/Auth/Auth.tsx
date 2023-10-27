@@ -3,18 +3,18 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
+  User,
 } from "firebase/auth";
 import { auth } from "../../utils/firebase";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import styles from "./Auth.module.scss";
-import { userInfo } from "os";
 
 interface AuthProps {
   setLoggedIn: any;
   loggedIn: boolean;
   setUserId: Dispatch<SetStateAction<string | null>>;
-  setUser: Dispatch<SetStateAction<string | null>>;
+  setUser: Dispatch<SetStateAction<User | null>>;
   userId: string | null;
 }
 
@@ -23,13 +23,12 @@ const Auth = (props: AuthProps) => {
   const [password, setPassword] = useState("");
   const { setLoggedIn, loggedIn, setUserId, setUser } = props;
 
-  console.log("userId: in auth", props.userId);
-
   const handleSignIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setLoggedIn(true);
       setUserId(auth?.currentUser?.uid || null);
+      setUser(auth?.currentUser || null);
     } catch (error: any) {
       console.error(error.message);
     }
@@ -47,12 +46,10 @@ const Auth = (props: AuthProps) => {
 
   onAuthStateChanged(auth, (user) => {
     if (user !== null) {
+      setLoggedIn(true);
+      setUserId(auth?.currentUser?.uid || null);
+      setUser(auth?.currentUser || null);
       // User is signed in
-      if (user.displayName === null) setUser("New User");
-      else {
-        setUser(user.displayName);
-        setUserId(user.uid);
-      }
     } else {
       // No user is signed in
       console.log("No user is signed in.");

@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Appointment } from "../../pages/dashboard";
+import { Appointment } from "../../types/Interfaces";
 import {
   collection,
   doc,
@@ -27,7 +27,6 @@ function AppointmentView(props: AppointmentProps) {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const { appointments, userId, setAppointments } = props;
 
-  console.log(userId);
   const appointmentsByUser = query(
     collection(db, "appointments"),
     where("user_id", "==", userId)

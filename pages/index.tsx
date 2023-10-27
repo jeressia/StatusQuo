@@ -1,3 +1,4 @@
+// pages/index.tsx
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 
@@ -8,7 +9,7 @@ const Index = () => {
     router.replace("/dashboard");
   }, []);
 
-  return null;
+  return null; // This page is empty since it's only for redirection.
 };
 
 export default Index;

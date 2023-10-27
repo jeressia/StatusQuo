@@ -13,7 +13,6 @@ const Search = () => {
     libraries: ["places"],
   });
 
-  console.log("isLoaded:", isLoaded);
   const view = () =>
     !isLoaded ? (
       <div>Loading...</div>
