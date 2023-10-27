@@ -7,18 +7,10 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../../utils/firebase";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 import styles from "./Auth.module.scss";
 import { useUser } from "../UserProvider";
-
-// interface AuthProps {
-//   setLoggedIn: any;
-//   loggedIn: boolean;
-//   setUserId: Dispatch<SetStateAction<string | null>>;
-//   setUser: Dispatch<SetStateAction<User | null>>;
-//   userId: string | null;
-// }
 
 export const handleSignIn = async (
   email: string,

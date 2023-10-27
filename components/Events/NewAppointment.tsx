@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import DatePicker, { ReactDatePicker } from "react-datepicker";
+import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { Appointment } from "../../pages/dashboard";
+import { Appointment } from "../../types/Interfaces";
 import { NewEventProps } from "./NewTestResults";
 
 function NewAppointment(props: NewEventProps) {

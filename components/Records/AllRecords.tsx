@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  getDocs,
-} from "firebase/firestore";
+import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { useUser } from "../UserProvider";
 

@@ -48,13 +48,10 @@ function AppointmentView(props: AppointmentProps) {
   const getAppointments = async () => {
     try {
       const data = await getDocs(appointmentsByUser);
-      console.log("data: ", data);
       const filterData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
-      console.log("filterData: ", filterData);
-      const index = 0;
       setAppointments(filterData as any);
     } catch (err) {
       console.log(err);

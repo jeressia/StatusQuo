@@ -28,8 +28,6 @@ const Records = () => {
       medication: "Ozempic",
     },
   ]);
-  // const [appointments, setAppointments] = useState<Appointment[]>([]);
-
   const view = () => (
     <div className={styles.Records}>
       <div className={styles.recordsHeader}>
@@ -39,9 +37,7 @@ const Records = () => {
         </Link>
       </div>
       <RecordsReminders reminders={reminders} />
-      <AllRecords
-      // userId={userId}
-      />
+      <AllRecords />
     </div>
   );
 

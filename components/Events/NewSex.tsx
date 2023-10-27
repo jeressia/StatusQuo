@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import Form from "react-bootstrap/Form";
 
 import "react-datepicker/dist/react-datepicker.css";
-import { Appointment } from "../../pages/dashboard";
+import { Appointment } from "../../types/Interfaces";
 import { Timestamp } from "firebase/firestore/lite";
 import { NewEventProps } from "./NewTestResults";
 

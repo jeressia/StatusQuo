@@ -5,13 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  GoogleMap,
-  Marker,
-  DirectionsRenderer,
-  Circle,
-  MarkerClusterer,
-} from "@react-google-maps/api";
+import { GoogleMap, Marker, MarkerClusterer } from "@react-google-maps/api";
 import Places from "./Places";
 // import Distance from "./distance";
 

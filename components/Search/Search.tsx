@@ -5,8 +5,6 @@ import Map from "./Map";
 
 import styles from "./Search.module.scss";
 
-// import { libraries } from "../../utils/libraries";
-
 const Search = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "",

@@ -18,8 +18,6 @@ import styles from "./Events.module.scss";
 
 function AddEvents() {
   const [typeOfEventToAdd, setTypeOfEventToAdd] = useState<string>("");
-  const [currentCollection, setCurrentCollection] = useState("");
-  const [cleanedUpData, setCleanedUpData] = useState<any>();
 
   const eventTypes = [
     { id: 1, event_type: "Appointment", icon: "/appointment.svg" },
