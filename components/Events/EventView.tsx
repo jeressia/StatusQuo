@@ -16,6 +16,7 @@ import { timeNormalizer } from "../../utils/math";
 import Link from "next/link";
 
 import styles from "./Events.module.scss";
+import { useUser } from "../UserProvider";
 
 interface AppointmentProps {
   appointments: Appointment[];
@@ -24,17 +25,18 @@ interface AppointmentProps {
 }
 
 function AppointmentView(props: AppointmentProps) {
+  const { userId } = useUser();
+
   const [updatedTitle, setUpdatedTitle] = useState("");
-  const { appointments, userId, setAppointments } = props;
+  const { appointments, setAppointments } = props;
 
   const collectionRef = collection(db, "appointments");
 
   const appointmentsByUser = query(
     collection(db, "appointments"),
-    where("user_id", "==", "waCkoBxKkeXEO1dCiPLoOAUTF4A3")
+    where("user_id", "==", userId)
   );
 
-  console.log("appointments", appointments);
   const updateAppointment = async (id: string) => {
     const appointmentToUpdate = doc(db, "appointments", id);
     await updateDoc(appointmentToUpdate, {

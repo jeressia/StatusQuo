@@ -17,7 +17,7 @@ interface DashboardProps {
 const Dashboard = (props: DashboardProps) => {
   const { appointments, user, userId, setAppointments } = props;
   const [loading, setLoading] = useState(false);
-  console.log(userId);
+
   const view = () =>
     loading ? (
       <div>Loading...</div>

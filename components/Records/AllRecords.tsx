@@ -7,15 +7,10 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { db } from "../../utils/firebase";
-
-// interface AllRecordsData {
-//   userId: string | null;
-// }
+import { useUser } from "../UserProvider";
 
 function AllRecords() {
-  // props: AllRecordsData
-  // const { userId } = props;
-  const userId = "waCkoBxKkeXEO1dCiPLoOAUTF4A3";
+  const { userId } = useUser();
   const [allRecords, setAllRecords] = useState<any[]>([]);
   const collectionNames = [
     "appointments",
@@ -27,7 +22,7 @@ function AllRecords() {
 
   useEffect(() => {
     fetchAllUserData(userId).then((combinedUserData) => {
-      console.log("Data from all collections for user:", combinedUserData);
+      // setAllRecords(combinedUserData);
     });
   }, []);
 
@@ -40,7 +35,7 @@ function AllRecords() {
     const data: any = [];
     const q = query(
       collection(db, collectionName),
-      where("user_id", "==", "waCkoBxKkeXEO1dCiPLoOAUTF4A3")
+      where("user_id", "==", userId)
     );
     const querySnapshot = await getDocs(q);
 
@@ -56,11 +51,21 @@ function AllRecords() {
       fetchDataForUser(collectionName, userId)
     );
     const allUserData = await Promise.all(userDataPromises);
-    setAllRecords(allUserData);
+    setAllRecords(allUserData.flat());
   };
 
-  console.log("allRecords", allRecords);
-  return <div>AllRecords</div>;
+  console.log(allRecords);
+
+  return (
+    <div>
+      {allRecords.map((record: any) => (
+        <div key={record.id}>
+          <p>Appointment Doctor: {record.appointment_doctor}</p>
+          {/* Add more properties as needed */}
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default AllRecords;
