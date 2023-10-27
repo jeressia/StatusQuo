@@ -4,57 +4,71 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   User,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../../utils/firebase";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import styles from "./Auth.module.scss";
+import { useUser } from "../UserProvider";
 
-interface AuthProps {
-  setLoggedIn: any;
-  loggedIn: boolean;
-  setUserId: Dispatch<SetStateAction<string | null>>;
-  setUser: Dispatch<SetStateAction<User | null>>;
-  userId: string | null;
-}
+// interface AuthProps {
+//   setLoggedIn: any;
+//   loggedIn: boolean;
+//   setUserId: Dispatch<SetStateAction<string | null>>;
+//   setUser: Dispatch<SetStateAction<User | null>>;
+//   userId: string | null;
+// }
 
-const Auth = (props: AuthProps) => {
+export const handleSignIn = async (
+  email: string,
+  password: string,
+  updateUserIdAndLoginStatus: (
+    loggedIn: boolean,
+    userId?: string | null
+  ) => void
+) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    updateUserIdAndLoginStatus(true, auth?.currentUser?.uid);
+  } catch (error: any) {
+    console.error(error.message);
+  }
+};
+
+export const handleSignInWithGoogle = async () => {
+  const provider = new GoogleAuthProvider();
+  try {
+    await signInWithPopup(auth, provider);
+  } catch (error: any) {
+    console.error(error.message);
+  }
+};
+
+export const signOutUser = () => {
+  return signOut(auth);
+};
+
+export const listenToAuthChanges = (callback: any) => {
+  return onAuthStateChanged(auth, (user) => {
+    callback(user);
+  });
+};
+
+const Auth = () => {
+  const { setUserId, setLoggedIn, loggedIn, userId } = useUser();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setLoggedIn, loggedIn, setUserId, setUser } = props;
 
-  const handleSignIn = async () => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      setLoggedIn(true);
-      setUserId(auth?.currentUser?.uid || null);
-      setUser(auth?.currentUser || null);
-    } catch (error: any) {
-      console.error(error.message);
-    }
+  const updateUserIdAndLoginStatus = (
+    loggedIn: boolean,
+    userId: string | null
+  ) => {
+    console.log("logging in");
+    setUserId(userId);
+    setLoggedIn(loggedIn);
   };
-
-  const handleSignInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-      setLoggedIn(true);
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
-
-  onAuthStateChanged(auth, (user) => {
-    if (user !== null) {
-      setLoggedIn(true);
-      setUserId(auth?.currentUser?.uid || null);
-      setUser(auth?.currentUser || null);
-      // User is signed in
-    } else {
-      // No user is signed in
-      console.log("No user is signed in.");
-    }
-  });
 
   return (
     <div className={styles.auth}>
@@ -77,7 +91,11 @@ const Auth = (props: AuthProps) => {
       <div className={styles.signupBtns}>
         <button
           type="button"
-          onClick={handleSignIn}
+          onClick={() =>
+            handleSignIn(email, password, () =>
+              updateUserIdAndLoginStatus(loggedIn, userId)
+            )
+          }
           className="btn btn-primary btn-sm"
         >
           <img src="/mail.png" />

@@ -3,11 +3,12 @@ import Dashboard from "../components/Dashboard/Dashboard";
 import Auth from "../components/Auth/Auth";
 import { Appointment } from "../types/Interfaces";
 import { User } from "firebase/auth";
+import { useUser } from "../components/UserProvider";
 
 function Home() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [userId, setUserId] = useState<null | string>(null);
+  const { loggedIn, user, userId } = useUser();
+  // const [loggedIn, setLoggedIn] = useState(false);
+  // const [userId, setUserId] = useState<null | string>(null);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   return loggedIn ? (
@@ -21,13 +22,7 @@ function Home() {
     </div>
   ) : (
     <div className="App">
-      <Auth
-        setLoggedIn={setLoggedIn}
-        loggedIn={loggedIn}
-        setUserId={setUserId}
-        setUser={setUser}
-        userId={userId}
-      />
+      <Auth />
     </div>
   );
 }
