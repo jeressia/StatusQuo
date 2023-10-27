@@ -8,7 +8,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
-import { auth, db } from "../../utils/firebase";
+import { db } from "../../utils/firebase";
 
 import UpdateAppointment from "./UpdateAppointment";
 import DeleteAppointment from "./DeleteEvent";
@@ -27,35 +27,36 @@ function AppointmentView(props: AppointmentProps) {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const { appointments, userId, setAppointments } = props;
 
+  const collectionRef = collection(db, "appointments");
+
   const appointmentsByUser = query(
     collection(db, "appointments"),
-    where("user_id", "==", userId)
+    where("user_id", "==", "waCkoBxKkeXEO1dCiPLoOAUTF4A3")
   );
 
-  const getAppointments = async () => {
-    try {
-      const data = await getDocs(appointmentsByUser);
-      const filterData = data.docs.map((doc) => ({
-        appointment_title: doc.data().appointment_title as string,
-        appointment_end_at: doc.data().appointment_end_at as Date,
-        appointment_start_at: doc.data().appointment_start_at as Date,
-        appointment_purpose: doc.data().appointment_purpose as string,
-        appointment_doctor: doc.data().appointment_doctors as string,
-        id: doc.id,
-      }));
-
-      setAppointments(filterData);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
+  console.log("appointments", appointments);
   const updateAppointment = async (id: string) => {
     const appointmentToUpdate = doc(db, "appointments", id);
     await updateDoc(appointmentToUpdate, {
       appointment_description: updatedTitle,
     });
     getAppointments();
+  };
+
+  const getAppointments = async () => {
+    try {
+      const data = await getDocs(appointmentsByUser);
+      console.log("data: ", data);
+      const filterData = data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      console.log("filterData: ", filterData);
+      const index = 0;
+      setAppointments(filterData as any);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -70,7 +71,7 @@ function AppointmentView(props: AppointmentProps) {
           {appointments.map((appointment: Appointment) => (
             <>
               <li key={appointment.id}>{appointment.appointment_title}</li>
-              <p>{timeNormalizer(appointment?.appointment_start_at)}</p>
+              {/* <p>{timeNormalizer(appointment?.appointment_start_at)}</p> */}
               <UpdateAppointment
                 appointment={appointment}
                 updateAppointment={updateAppointment}
@@ -78,7 +79,7 @@ function AppointmentView(props: AppointmentProps) {
                 setUpdatedTitle={setUpdatedTitle}
               />
               <DeleteAppointment
-                getAppointments={getAppointments}
+                // getAppointments={getAppointments}
                 appointment={appointment}
               />
             </>

@@ -3,7 +3,6 @@ import Layout from "../../layout/Layout";
 
 import styles from "./Records.module.scss";
 import RecordsReminders from "./RecordsReminders";
-// import { Appointment } from "../../pages/dashboard";
 import Link from "next/link";
 import AllRecords from "./AllRecords";
 
@@ -40,7 +39,9 @@ const Records = () => {
         </Link>
       </div>
       <RecordsReminders reminders={reminders} />
-      <AllRecords />
+      <AllRecords
+      // userId={userId}
+      />
     </div>
   );
 

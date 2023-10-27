@@ -29,17 +29,17 @@ function AddEvents() {
     { id: 5, event_type: "Medication", icon: "/.svg" },
   ];
 
-  useEffect(() => {
-    if (cleanedUpData) {
-      try {
-        addDoc(fireBaseCollection(currentCollection), {
-          cleanedUpData,
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }, [cleanedUpData]);
+  // useEffect(() => {
+  //   if (cleanedUpData) {
+  //     try {
+  //       addDoc(fireBaseCollection(currentCollection), {
+  //         cleanedUpData,
+  //       });
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  // }, [cleanedUpData]);
 
   const fireBaseCollection = (
     collectionType: string
@@ -49,9 +49,7 @@ function AddEvents() {
     e.preventDefault();
     switch (collectionType) {
       case "appointments":
-        console.log(collectionType, data);
-        setCurrentCollection("appointments");
-        setCleanedUpData({
+        addDoc(fireBaseCollection("appointments"), {
           appointment_title: data.appointment_title,
           appointment_start_at: data.appointment_start_at,
           appointment_end_at: data.appointment_end_at,
@@ -61,8 +59,7 @@ function AddEvents() {
         });
         break;
       case "sexual_relations":
-        setCurrentCollection("sexual_relations");
-        setCleanedUpData({
+        addDoc(fireBaseCollection("sexual_relations"), {
           date_of_relations: data.date_of_relations,
           isProtected: data.isProtected,
           partner_name: data.partner_name,
@@ -72,8 +69,7 @@ function AddEvents() {
         });
         break;
       case "test_results":
-        setCurrentCollection("test_results");
-        setCleanedUpData({
+        addDoc(fireBaseCollection("test_results"), {
           date_of_test: data.date_of_test,
           test_type: data.test_type,
           chlamydia: data.chlamydia,
@@ -87,8 +83,7 @@ function AddEvents() {
         });
         break;
       case "symptoms":
-        setCurrentCollection("symptoms");
-        setCleanedUpData({
+        addDoc(fireBaseCollection("symptoms"), {
           date_started: data.date_started,
           date_ended: data.date_ended,
           photo_upload_url: data.photo_upload_url,
@@ -97,8 +92,7 @@ function AddEvents() {
         });
         break;
       case "medications":
-        setCurrentCollection("medications");
-        setCleanedUpData({
+        addDoc(fireBaseCollection("medications"), {
           date_prescribed: data.date_prescribed,
           date_filled: data.date_filled,
           prescribing_doctor: data.prescribing_doctor,
