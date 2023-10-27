@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Layout from "../../layout/Layout";
+import Layout from "../Layout";
 
 import styles from "./Records.module.scss";
 import RecordsReminders from "./RecordsReminders";

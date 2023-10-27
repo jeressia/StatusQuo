@@ -1,8 +1,10 @@
 import React from "react";
-import Layout from "../../layout/Layout";
+import Layout from "../Layout";
+
+import styles from "./Profile.module.scss";
 
 const Profile = () => {
-  const view = () => <div>Profile</div>;
+  const view = () => <div className={styles.profile}>Profile</div>;
 
   return <Layout>{view()}</Layout>;
 };
