@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Layout from "../../layout/Layout";
+import Layout from "../Layout";
 
 import NewAppointment from "./NewAppointment";
 import NewSex from "./NewSex";

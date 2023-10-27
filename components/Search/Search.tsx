@@ -1,5 +1,5 @@
 import React from "react";
-import Layout from "../../layout/Layout";
+import Layout from "../Layout";
 import { Libraries, useLoadScript } from "@react-google-maps/api";
 import Map from "./Map";
 

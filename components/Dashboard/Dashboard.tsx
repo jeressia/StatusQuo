@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import Layout from "../../layout/Layout";
+import Layout from "../Layout";
 
 import { Appointment } from "../../types/Interfaces";
 import AppointmentView from "../Events/EventView";
