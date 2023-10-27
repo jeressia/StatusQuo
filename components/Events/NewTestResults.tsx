@@ -69,7 +69,6 @@ function NewTestResults(props: NewEventProps) {
     const setState: any = stateSetterFunctions[stateVariableName];
 
     if (setState) {
-      console.log(chlamydia, gonorrhea, hepC, hiv, herpes, syphillis, trich);
       setState((prevState: any) => !prevState);
     } else {
       console.error(`State variable ${stateVariableName} not found`);
@@ -196,7 +195,6 @@ function NewTestResults(props: NewEventProps) {
       </div>
       <button
         onClick={(e: any) => {
-          console.log("button pressed");
           onSubmitEvent(e, "test_results", resultsToCreate);
         }}
       >

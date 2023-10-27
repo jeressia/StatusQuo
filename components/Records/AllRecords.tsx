@@ -26,8 +26,6 @@ function AllRecords() {
     });
   }, []);
 
-  console.log("userId in all records", userId);
-
   const fetchDataForUser = async (
     collectionName: string,
     userId: string | null
@@ -53,8 +51,6 @@ function AllRecords() {
     const allUserData = await Promise.all(userDataPromises);
     setAllRecords(allUserData.flat());
   };
-
-  console.log(allRecords);
 
   return (
     <div>

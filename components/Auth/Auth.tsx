@@ -65,7 +65,6 @@ const Auth = () => {
     loggedIn: boolean,
     userId: string | null
   ) => {
-    console.log("logging in");
     setUserId(userId);
     setLoggedIn(loggedIn);
   };

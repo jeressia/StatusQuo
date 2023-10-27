@@ -29,18 +29,6 @@ function AddEvents() {
     { id: 5, event_type: "Medication", icon: "/.svg" },
   ];
 
-  // useEffect(() => {
-  //   if (cleanedUpData) {
-  //     try {
-  //       addDoc(fireBaseCollection(currentCollection), {
-  //         cleanedUpData,
-  //       });
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
-  // }, [cleanedUpData]);
-
   const fireBaseCollection = (
     collectionType: string
   ): CollectionReference<DocumentData> => collection(db, collectionType);

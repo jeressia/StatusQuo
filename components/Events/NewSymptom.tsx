@@ -92,7 +92,6 @@ function NewSymptoms(props: NewEventProps) {
       </div>
       <button
         onClick={(e: any) => {
-          console.log("button pressed");
           onSubmitEvent(e, "symptoms", symptomsToCreate);
         }}
       >

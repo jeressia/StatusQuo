@@ -62,8 +62,6 @@ const Map: React.FC = () => {
     [center]
   );
 
-  // console.log("interestPlaces", interestPlaces);
-
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
