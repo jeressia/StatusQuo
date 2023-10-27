@@ -16,6 +16,10 @@ type UserContextType = {
   setUserId: (userId: string | null) => void;
   loggedIn: boolean;
   setLoggedIn: Dispatch<SetStateAction<boolean>>;
+  hiv: boolean;
+  setHIV: Dispatch<SetStateAction<boolean>>;
+  herpes: boolean;
+  setHerpes: Dispatch<SetStateAction<boolean>>;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -30,9 +34,10 @@ export function useUser() {
 
 export function UserProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-
   const [userId, setUserId] = useState<string | null>(null);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [hiv, setHIV] = useState(false);
+  const [herpes, setHerpes] = useState(false);
 
   useEffect(() => {
     const unsubscribe = listenToAuthChanges((user: User | null) => {
@@ -50,7 +55,17 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   return (
     <UserContext.Provider
-      value={{ user, userId, setUserId, loggedIn, setLoggedIn }}
+      value={{
+        user,
+        userId,
+        setUserId,
+        loggedIn,
+        setLoggedIn,
+        hiv,
+        setHIV,
+        herpes,
+        setHerpes,
+      }}
     >
       {children}
     </UserContext.Provider>
