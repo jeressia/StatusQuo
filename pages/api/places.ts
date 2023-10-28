@@ -8,15 +8,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     return res.status(405).end();
   }
 
-  console.log("in places ts");
-
   try {
-    const { location, key, input } = req.query;
+    const { location, key, input, keyword, category, types } = req.query;
     const apiUrl =
       "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
 
     const response = await axios.get(apiUrl, {
-      params: { location, key, input, inputtype: "textquery", radius: 1000 },
+      params: {
+        location,
+        key,
+        input,
+        inputtype: "textquery",
+        radius: 10000,
+        category,
+        types,
+        keyword,
+      },
     });
 
     res.json(response.data);
