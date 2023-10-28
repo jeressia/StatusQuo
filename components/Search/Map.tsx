@@ -6,15 +6,18 @@ import React, {
   useState,
 } from "react";
 import { GoogleMap, Marker, MarkerClusterer } from "@react-google-maps/api";
+import axios from "axios";
+
 import Places from "./Places";
-// import Distance from "./distance";
 
 export type LatLngLiteral = google.maps.LatLngLiteral;
-type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
 const Map: React.FC = () => {
-  const [location, setLocation] = useState<LatLngLiteral>();
+  const [location, setLocation] = useState<LatLngLiteral>({
+    lat: 36.01973,
+    lng: -86.57831,
+  });
   const mapRef = useRef<GoogleMap | null>(null);
   const center = useMemo<LatLngLiteral>(
     () => location || { lat: 36.01973, lng: -86.57831 },
@@ -55,6 +58,33 @@ const Map: React.FC = () => {
     () => generateInterestPlaces(center),
     [center]
   );
+
+  const placesFilterSearch = async (
+    searchFilter: string,
+    location: LatLngLiteral,
+    radius: number
+  ) => {
+    {
+      const params = {
+        location: `${location.lat}, ${location.lng}`,
+        key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+        input: searchFilter,
+        keyword: searchFilter,
+        radius,
+        inputtype: "textquery",
+      };
+
+      const apiUrl = "/api/places";
+
+      try {
+        const response = await axios.get(apiUrl, { params });
+        console.log(response.data.results);
+        return response.data.results;
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -110,7 +140,12 @@ const Map: React.FC = () => {
           }}
         />
         <div>
-          <button className="btn btn-danger btn-sm">STD Testing</button>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => placesFilterSearch("std testing", location, 1000)}
+          >
+            STD Testing
+          </button>
           <button className="btn btn-danger btn-sm"> Pharmacy</button>
           <button className="btn btn-danger btn-sm">Contraceptives</button>
           <button className="btn btn-danger btn-sm">Advocacy</button>
