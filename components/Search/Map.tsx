@@ -5,7 +5,12 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { GoogleMap, Marker, MarkerClusterer } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  InfoWindow,
+  Marker,
+  MarkerClusterer,
+} from "@react-google-maps/api";
 import axios from "axios";
 
 import Places from "./Places";
@@ -19,6 +24,7 @@ const Map: React.FC = () => {
     lng: 86.7816,
   });
   const [relevantPlaces, setRelevantPlaces] = useState<LatLngLiteral[]>([]);
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const mapRef = useRef<GoogleMap | null>(null);
   const center = useMemo<LatLngLiteral>(
     () => location || { lat: 36.01973, lng: -86.57831 },
@@ -42,38 +48,35 @@ const Map: React.FC = () => {
     location: LatLngLiteral,
     radius: number
   ) => {
-    {
-      const params = {
-        location: `${location.lat}, ${location.lng}`,
-        key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
-        input: searchFilter,
-        keyword: searchFilter,
-        radius,
-        inputtype: "textquery",
-        category: "health",
-        types: "health|hospital",
-      };
+    const params = {
+      location: `${location.lat}, ${location.lng}`,
+      key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+      input: searchFilter,
+      keyword: searchFilter,
+      radius,
+      inputtype: "textquery",
+      category: "health",
+      types: "health|hospital",
+    };
 
-      const apiUrl = "/api/places";
+    const apiUrl = "/api/places";
 
-      try {
-        const response = await axios.get(apiUrl, { params });
-        if (response && response.data && response.data.results) {
-          const placesData = response.data.results.map(
-            (place: any) => place.geometry.location
-          );
-          console.log(response);
-          if (placesData.length > 0) {
-            setRelevantPlaces(placesData);
-            setLocation(placesData[0]);
-            setZoom(12);
-          }
-        } else {
-          console.error("No results found in the API response.");
+    try {
+      const response = await axios.get(apiUrl, { params });
+      if (response && response.data && response.data.results) {
+        const placesData = response.data.results.map(
+          (place: any) => place.geometry.location
+        );
+        if (placesData.length > 0) {
+          setRelevantPlaces(placesData);
+          setLocation(placesData[0]);
+          setZoom(12);
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      } else {
+        console.error("No results found in the API response.");
       }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   };
 
@@ -85,7 +88,7 @@ const Map: React.FC = () => {
           lng: position.coords.longitude,
         };
         setLocation(userLocation);
-        mapRef.current?.panTo(userLocation); // Set the map's center to the user's location
+        mapRef.current?.panTo(userLocation);
       });
     }
   }, []);
@@ -104,11 +107,30 @@ const Map: React.FC = () => {
             <>
               <Marker position={location} />
               <>
-                {relevantPlaces.map((location: any) => (
-                  <Marker key={location.lat} position={location} />
+                {relevantPlaces.map((place: any) => (
+                  <Marker
+                    key={place.lat}
+                    position={place}
+                    onClick={() => {
+                      setSelectedPlace(place);
+                    }}
+                  />
                 ))}
               </>
             </>
+          )}
+          {selectedPlace && (
+            <InfoWindow
+              position={selectedPlace}
+              onCloseClick={() => {
+                setSelectedPlace(null);
+              }}
+            >
+              <div>
+                <h1>{selectedPlace.name}</h1>
+                <p>{selectedPlace.vicinity}</p>
+              </div>
+            </InfoWindow>
           )}
         </GoogleMap>
       </div>
