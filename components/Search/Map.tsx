@@ -5,12 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {
-  GoogleMap,
-  InfoWindow,
-  Marker,
-  MarkerClusterer,
-} from "@react-google-maps/api";
+import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import axios from "axios";
 
 import Places from "./Places";
@@ -64,12 +59,10 @@ const Map: React.FC = () => {
     try {
       const response = await axios.get(apiUrl, { params });
       if (response && response.data && response.data.results) {
-        const placesData = response.data.results.map(
-          (place: any) => place.geometry.location
-        );
+        const placesData = response.data.results;
         if (placesData.length > 0) {
           setRelevantPlaces(placesData);
-          setLocation(placesData[0]);
+          setLocation(placesData[0].geometry.location);
           setZoom(12);
         }
       } else {
@@ -109,8 +102,8 @@ const Map: React.FC = () => {
               <>
                 {relevantPlaces.map((place: any) => (
                   <Marker
-                    key={place.lat}
-                    position={place}
+                    key={place.geometry.location.lat}
+                    position={place.geometry.location}
                     onClick={() => {
                       setSelectedPlace(place);
                     }}
@@ -121,13 +114,13 @@ const Map: React.FC = () => {
           )}
           {selectedPlace && (
             <InfoWindow
-              position={selectedPlace}
+              position={selectedPlace.geometry.location}
               onCloseClick={() => {
                 setSelectedPlace(null);
               }}
             >
               <div>
-                <h1>{selectedPlace.name}</h1>
+                <p>{selectedPlace.name}</p>
                 <p>{selectedPlace.vicinity}</p>
               </div>
             </InfoWindow>
