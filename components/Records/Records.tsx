@@ -5,6 +5,8 @@ import styles from "./Records.module.scss";
 import RecordsReminders from "./RecordsReminders";
 import Link from "next/link";
 import AllRecords from "./AllRecords";
+import Prescriptions from "./Prescriptions";
+import { useUser } from "../UserProvider";
 
 export interface Reminder {
   reminder_type: string; //Rx Refill Soon, Rx Last Refill, Appt need to be scheduled
@@ -14,6 +16,8 @@ export interface Reminder {
   medication?: string;
 }
 const Records = () => {
+  const { hiv, herpes } = useUser();
+
   const [reminders, setReminders] = useState<Reminder[]>([
     {
       reminder_type: "appointment",
@@ -37,6 +41,7 @@ const Records = () => {
         </Link>
       </div>
       <RecordsReminders reminders={reminders} />
+      {(hiv || herpes) && <Prescriptions />}
       <AllRecords />
     </div>
   );

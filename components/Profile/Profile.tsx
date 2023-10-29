@@ -34,7 +34,8 @@ interface UserProfile {
 }
 
 const Profile = () => {
-  const { user, hiv, setHIV, herpes, setHerpes, userId } = useUser();
+  const { user, hiv, setHIV, herpes, setHerpes, userId, signOutUser } =
+    useUser();
   const [anonymousData, setAnonymousData] = useState(false);
   const [userName, setUserName] = useState(user?.displayName || "New User");
   const [userProfile, setUserProfile] = useState<UserProfile | undefined>();
@@ -191,6 +192,13 @@ const Profile = () => {
         }}
       >
         Update Profile
+      </button>
+      <button
+        onClick={(e: any) => {
+          signOutUser();
+        }}
+      >
+        Sign Out
       </button>
     </div>
   );

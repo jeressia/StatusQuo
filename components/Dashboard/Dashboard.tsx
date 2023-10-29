@@ -7,6 +7,7 @@ import AppointmentView from "../Events/EventView";
 import styles from "./Dashboard.module.scss";
 import QRView from "../QR/QRView";
 import { useUser } from "../UserProvider";
+import Loader from "../Loader";
 
 interface DashboardProps {
   user: any;
@@ -16,18 +17,17 @@ interface DashboardProps {
 }
 
 const Dashboard = (props: DashboardProps) => {
-  const { userProfile } = useUser();
+  const { userProfile, firebaseLoaded } = useUser();
   const { appointments, user, userId, setAppointments } = props;
-  const [loading, setLoading] = useState(false);
 
   const view = () =>
-    loading ? (
-      <div>Loading...</div>
+    !firebaseLoaded ? (
+      <Loader />
     ) : (
       <div className={styles.dashboard}>
         <div className={styles.greeting}>
           <p>
-            Hello, {userProfile.user_name ? userProfile.user_name : "New User"}!
+            Hello, {userProfile?.user_name ? user.displayName : "New User"}!
           </p>
         </div>
         <AppointmentView

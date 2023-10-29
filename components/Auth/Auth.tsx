@@ -3,7 +3,6 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   onAuthStateChanged,
-  User,
   signOut,
 } from "firebase/auth";
 import { auth } from "../../utils/firebase";
@@ -11,35 +10,7 @@ import { useState } from "react";
 
 import styles from "./Auth.module.scss";
 import { useUser } from "../UserProvider";
-
-export const handleSignIn = async (
-  email: string,
-  password: string,
-  updateUserIdAndLoginStatus: (
-    loggedIn: boolean,
-    userId?: string | null
-  ) => void
-) => {
-  try {
-    await signInWithEmailAndPassword(auth, email, password);
-    updateUserIdAndLoginStatus(true, auth?.currentUser?.uid);
-  } catch (error: any) {
-    console.error(error.message);
-  }
-};
-
-export const handleSignInWithGoogle = async () => {
-  const provider = new GoogleAuthProvider();
-  try {
-    await signInWithPopup(auth, provider);
-  } catch (error: any) {
-    console.error(error.message);
-  }
-};
-
-export const signOutUser = () => {
-  return signOut(auth);
-};
+import router from "next/router";
 
 export const listenToAuthChanges = (callback: any) => {
   return onAuthStateChanged(auth, (user) => {
@@ -48,17 +19,30 @@ export const listenToAuthChanges = (callback: any) => {
 };
 
 const Auth = () => {
-  const { setUserId, setLoggedIn, loggedIn, userId } = useUser();
+  const { setLoggedIn, loggedIn, userId } = useUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const updateUserIdAndLoginStatus = (
-    loggedIn: boolean,
-    userId: string | null
-  ) => {
-    setUserId(userId);
-    setLoggedIn(loggedIn);
+  const handleSignIn = async (email: string, password: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      setLoggedIn(true);
+      router.replace("/dashboard");
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+
+  const handleSignInWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      setLoggedIn(true);
+      router.replace("/dashboard");
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -82,11 +66,7 @@ const Auth = () => {
       <div className={styles.signupBtns}>
         <button
           type="button"
-          onClick={() =>
-            handleSignIn(email, password, () =>
-              updateUserIdAndLoginStatus(loggedIn, userId)
-            )
-          }
+          onClick={() => handleSignIn(email, password)}
           className="btn btn-primary btn-sm"
         >
           <img src="/mail.png" />

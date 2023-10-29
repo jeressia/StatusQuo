@@ -3,6 +3,7 @@ import DatePicker from "react-datepicker";
 import Form from "react-bootstrap/Form";
 
 import "react-datepicker/dist/react-datepicker.css";
+import { TestResult } from "../../types/Interfaces";
 
 export interface NewEventProps {
   onSubmitEvent: (
@@ -10,19 +11,6 @@ export interface NewEventProps {
     collectionType: string,
     data: any
   ) => void;
-}
-
-interface TestResult {
-  date_of_test: Date;
-  test_type: string;
-  chlamydia: boolean;
-  gonorrhea: boolean;
-  hep_c: boolean;
-  herpes: boolean;
-  hiv: boolean;
-  syphillis: boolean;
-  trich: boolean;
-  hpv: boolean;
 }
 
 function NewTestResults(props: NewEventProps) {

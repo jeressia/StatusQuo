@@ -4,13 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { NewEventProps } from "./NewTestResults";
-
-interface Symptom {
-  date_started: Date;
-  date_ended: Date;
-  photo_upload_url: string;
-  type_of_symptom: string;
-}
+import { Symptom } from "../../types/Interfaces";
 
 function NewSymptoms(props: NewEventProps) {
   const { onSubmitEvent } = props;
