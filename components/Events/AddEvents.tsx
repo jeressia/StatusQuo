@@ -15,8 +15,10 @@ import {
 import { auth, db } from "../../utils/firebase";
 
 import styles from "./Events.module.scss";
+import { useUser } from "../UserProvider";
 
 function AddEvents() {
+  const { hiv, herpes } = useUser();
   const [typeOfEventToAdd, setTypeOfEventToAdd] = useState<string>("");
 
   const eventTypes = [
@@ -99,20 +101,24 @@ function AddEvents() {
       <div className={styles.addnew}>
         <h1>New Event</h1>
         <div className={styles.addIconContainer}>
-          {eventTypes.map((eventType) => (
-            <div
-              onClick={() => setTypeOfEventToAdd(eventType.event_type)}
-              className={
-                typeOfEventToAdd === eventType.event_type
-                  ? styles.active
-                  : styles.addNewType
-              }
-              key={eventType.id}
-            >
-              <img src={eventType.icon} alt="" />
-              <p>{eventType.event_type}</p>
-            </div>
-          ))}
+          {eventTypes
+            .filter(
+              (eventType) => hiv || herpes || eventTypes.indexOf(eventType) < 4
+            )
+            .map((eventType) => (
+              <div
+                onClick={() => setTypeOfEventToAdd(eventType.event_type)}
+                className={
+                  typeOfEventToAdd === eventType.event_type
+                    ? styles.active
+                    : styles.addNewType
+                }
+                key={eventType.id}
+              >
+                <img src={eventType.icon} alt="" />
+                <p>{eventType.event_type}</p>
+              </div>
+            ))}
         </div>
         <div className={styles.newForm}>
           {typeOfEventToAdd === "Appointment" ? (
