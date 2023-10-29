@@ -1,9 +1,9 @@
 import { Timestamp } from "firebase/firestore";
 
-export const timeNormalizer = (timestamp: Date | undefined) => {
-  if (timestamp) {
-    const conversion = timestamp;
-    const formattedDate = conversion.toLocaleDateString("en-US", {
+export const timeNormalizer = (timestamp: Timestamp | undefined) => {
+  const date = timestamp?.toDate();
+  if (date) {
+    const formattedDate = date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
       day: "numeric",

@@ -27,8 +27,7 @@ const Dashboard = (props: DashboardProps) => {
       <div className={styles.dashboard}>
         <div className={styles.greeting}>
           <p>
-            Hello, {userProfile?.user_name ? userProfile.user_name : "New User"}
-            !
+            Hello, {userProfile?.user_name ? user.displayName : "New User"}!
           </p>
         </div>
         <AppointmentView

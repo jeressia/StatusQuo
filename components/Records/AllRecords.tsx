@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { useUser } from "../UserProvider";
+import SingleAppointment from "./SingleAppointment";
 
 function AllRecords() {
   const { userId } = useUser();
@@ -27,7 +28,10 @@ function AllRecords() {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
-      data.push(doc.data());
+      data.push({
+        collectionName,
+        ...doc.data(),
+      });
     });
 
     return data;
@@ -46,7 +50,7 @@ function AllRecords() {
     fetchData();
   }, [userId]);
 
-  // console.log("allRecords", allRecords);
+  console.log("allRecords", allRecords);
   return (
     <div>
       <button
@@ -76,10 +80,9 @@ function AllRecords() {
       {allRecords.map((record: any) => {
         if (record.collectionName === "appointments") {
           return (
-            <div key={record.id}>
-              <p>Appointment Doctor: {record.appointment_doctor}</p>
-              <p>Appointment Time: {record.appointment_time}</p>
-            </div>
+            <React.Fragment key={record.id}>
+              <SingleAppointment appointment={record} />
+            </React.Fragment>
           );
         } else if (record.collectionName === "test_results") {
         } else if (record.collectionName === "sexual_relations") {
