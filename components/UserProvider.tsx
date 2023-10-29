@@ -25,6 +25,7 @@ type UserContextType = {
   setHIV: Dispatch<SetStateAction<boolean>>;
   herpes: boolean;
   setHerpes: Dispatch<SetStateAction<boolean>>;
+  firebaseLoaded: boolean;
 };
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -44,6 +45,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [loggedIn, setLoggedIn] = useState(false);
   const [hiv, setHIV] = useState(false);
   const [herpes, setHerpes] = useState(false);
+  const [firebaseLoaded, setFirebaseLoaded] = useState(false);
 
   const getUserProfile = async (userId: string) => {
     const userRef = query(
@@ -58,6 +60,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setUserProfile(userData);
         setHIV(userData.hiv_positive);
         setHerpes(userData.herpes_positive);
+        setFirebaseLoaded(true);
       }
     } catch (err) {
       console.error(err);
@@ -106,6 +109,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setHIV,
         herpes,
         setHerpes,
+        firebaseLoaded,
       }}
     >
       {children}

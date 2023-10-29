@@ -7,9 +7,10 @@ import SingleAppointmentCard from "./SingleAppointmentCard";
 import SingleResultsCard from "./SingleResultsCard";
 import SingleRelationCard from "./SingleRelationCard";
 import SingleSymptomCard from "./SingleSymptomCard";
+import Loader from "../Loader";
 
 function AllRecords() {
-  const { userId } = useUser();
+  const { userId, firebaseLoaded } = useUser();
   const [allRecords, setAllRecords] = useState<any[]>([]);
   const collectionNames = [
     "appointments",
@@ -19,7 +20,6 @@ function AllRecords() {
     "test_results",
   ];
 
-  // console.log("userId in all records", userId);
   const fetchDataForUser = async (
     collectionName: string,
     userId: string | null
@@ -54,7 +54,9 @@ function AllRecords() {
     fetchData();
   }, [userId]);
 
-  return (
+  return !firebaseLoaded ? (
+    <Loader />
+  ) : (
     <div>
       <button
         className="btn btn-danger btn-sm"
