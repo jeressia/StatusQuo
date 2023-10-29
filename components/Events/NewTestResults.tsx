@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { TestResult } from "../../types/Interfaces";
+import { useUser } from "../UserProvider";
 
 export interface NewEventProps {
   onSubmitEvent: (
@@ -15,20 +16,17 @@ export interface NewEventProps {
 
 function NewTestResults(props: NewEventProps) {
   const { onSubmitEvent } = props;
-  const [testType, setTestType] = useState("");
+  const { hiv, herpes, setHIV, setHerpes } = useUser();
   const [testDate, setTestDate] = useState(new Date());
   const [chlamydia, setChlamydia] = useState(false);
   const [gonorrhea, setGonorrhea] = useState(false);
   const [hepC, setHepC] = useState(false);
-  const [herpes, setHerpes] = useState(false);
-  const [hiv, setHiv] = useState(false);
   const [syphillis, setSyphillis] = useState(false);
   const [trich, setTrich] = useState(false);
   const [hpv, setHPV] = useState(false);
 
   const resultsToCreate: TestResult = {
     date_of_test: testDate,
-    test_type: testType,
     chlamydia: chlamydia,
     gonorrhea: gonorrhea,
     hep_c: hepC,
@@ -47,7 +45,7 @@ function NewTestResults(props: NewEventProps) {
     gonorrhea: setGonorrhea,
     hepC: setHepC,
     herpes: setHerpes,
-    hiv: setHiv,
+    hiv: setHIV,
     syphillis: setSyphillis,
     trich: setTrich,
     hpv: setHPV,
@@ -63,10 +61,20 @@ function NewTestResults(props: NewEventProps) {
     }
   };
 
+  const handleWarning = (e: any) => {
+    if (
+      confirm(
+        "Warning! Many states have laws against knowingly exposing another to HIV and or an STIs. Punishments ranges from fines to prison time. Only add these results if they are correct."
+      )
+    ) {
+      onSubmitEvent(e, "test_results", resultsToCreate);
+    } else e.preventDefault();
+  };
+
   return (
     <form>
       <div className="form-group row">
-        <label htmlFor="StartDate" className="col-sm-3">
+        <label htmlFor="TestDate" className="col-sm-3">
           Date of Test
         </label>
         <div className="col-sm-9">
@@ -80,20 +88,6 @@ function NewTestResults(props: NewEventProps) {
             onChange={(date: Date) => setTestDate(date)}
             showFourColumnMonthYearPicker
             className="form-control"
-          />
-        </div>
-      </div>
-      <div className="form-group row">
-        <label htmlFor="AppointmentTitle" className="col-sm-3">
-          Test Type
-        </label>
-        <div className="col-sm-9">
-          <input
-            id="AppointmentTitle"
-            type="text"
-            className="form-control"
-            placeholder="Partner Name"
-            onChange={(e) => setTestType(e.target.value)}
           />
         </div>
       </div>
@@ -183,7 +177,7 @@ function NewTestResults(props: NewEventProps) {
       </div>
       <button
         onClick={(e: any) => {
-          onSubmitEvent(e, "test_results", resultsToCreate);
+          handleWarning(e);
         }}
       >
         + Add

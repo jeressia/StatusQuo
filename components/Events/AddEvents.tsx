@@ -26,7 +26,7 @@ function AddEvents() {
     { id: 2, event_type: "Sexual Relations", icon: "/sexualrelations.svg" },
     { id: 3, event_type: "Test Results", icon: "/testresults.svg" },
     { id: 4, event_type: "Symptom", icon: "/symptom.svg" },
-    { id: 5, event_type: "Medication", icon: "/.svg" },
+    { id: 5, event_type: "Medication", icon: "medication/.svg" },
   ];
 
   const fireBaseCollection = (
@@ -45,6 +45,7 @@ function AddEvents() {
           appointment_doctor: data.appointment_doctor,
           user_id: auth?.currentUser?.uid,
         });
+        setTypeOfEventToAdd("");
         break;
       case "sexual_relations":
         addDoc(fireBaseCollection("sexual_relations"), {
@@ -55,11 +56,11 @@ function AddEvents() {
           partner_status: data.partner_status,
           user_id: auth?.currentUser?.uid,
         });
+        setTypeOfEventToAdd("");
         break;
       case "test_results":
         addDoc(fireBaseCollection("test_results"), {
           date_of_test: data.date_of_test,
-          test_type: data.test_type,
           chlamydia: data.chlamydia,
           gonorrhea: data.gonorrhea,
           hep_c: data.hep_c,
@@ -69,6 +70,7 @@ function AddEvents() {
           trichomoniasis: data.trich,
           user_id: auth?.currentUser?.uid,
         });
+        setTypeOfEventToAdd("");
         break;
       case "symptoms":
         addDoc(fireBaseCollection("symptoms"), {
@@ -78,6 +80,7 @@ function AddEvents() {
           type_of_symptom: data.type_of_symptom,
           user_id: auth?.currentUser?.uid,
         });
+        setTypeOfEventToAdd("");
         break;
       case "medications":
         addDoc(fireBaseCollection("medications"), {
@@ -91,6 +94,7 @@ function AddEvents() {
           day_supply: data.day_supply,
           user_id: auth?.currentUser?.uid,
         });
+        setTypeOfEventToAdd("");
         break;
       default:
     }

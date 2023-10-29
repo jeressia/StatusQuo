@@ -19,7 +19,7 @@ export interface SexualRelations {
 
 export interface TestResult {
   date_of_test: Date;
-  test_type: string;
+  test_type?: string;
   chlamydia: boolean;
   gonorrhea: boolean;
   hep_c: boolean;
