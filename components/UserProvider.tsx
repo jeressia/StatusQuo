@@ -8,9 +8,10 @@ import React, {
   SetStateAction,
 } from "react";
 import { listenToAuthChanges } from "./Auth/Auth";
-import { User } from "firebase/auth";
-import { collection, getDoc, getDocs, query, where } from "firebase/firestore";
-import { db } from "../utils/firebase";
+import { User, signOut } from "firebase/auth";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { auth, db } from "../utils/firebase";
+import router from "next/router";
 
 type UserContextType = {
   user: User | null;
@@ -20,6 +21,7 @@ type UserContextType = {
   loggedIn: boolean;
   setLoggedIn: Dispatch<SetStateAction<boolean>>;
   hiv: boolean;
+  signOutUser: () => void;
   setHIV: Dispatch<SetStateAction<boolean>>;
   herpes: boolean;
   setHerpes: Dispatch<SetStateAction<boolean>>;
@@ -62,10 +64,11 @@ export function UserProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  console.log("user", user);
-  console.log("hiv", hiv);
-  console.log("herpes", herpes);
-
+  const signOutUser = () => {
+    setLoggedIn(false);
+    signOut(auth);
+    router.replace("/dashboard");
+  };
   useEffect(() => {
     const unsubscribe = listenToAuthChanges((authUser: User | null) => {
       if (authUser) {
@@ -98,6 +101,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
         setUserId,
         loggedIn,
         setLoggedIn,
+        signOutUser,
         hiv,
         setHIV,
         herpes,

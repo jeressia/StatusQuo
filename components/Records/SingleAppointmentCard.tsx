@@ -6,7 +6,7 @@ interface SingleAppointmentProps {
   appointment: Appointment;
 }
 
-function SingleAppointment(props: SingleAppointmentProps) {
+function SingleAppointmentCard(props: SingleAppointmentProps) {
   const { appointment } = props;
 
   return (
@@ -19,4 +19,4 @@ function SingleAppointment(props: SingleAppointmentProps) {
   );
 }
 
-export default SingleAppointment;
+export default SingleAppointmentCard;

@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { useUser } from "../UserProvider";
-import SingleAppointment from "./SingleAppointment";
+import SingleAppointment from "./SingleAppointmentCard";
+import SingleAppointmentCard from "./SingleAppointmentCard";
+import SingleResultsCard from "./SingleResultsCard";
+import SingleRelationCard from "./SingleRelationCard";
+import SingleSymptomCard from "./SingleSymptomCard";
 
 function AllRecords() {
   const { userId } = useUser();
@@ -50,7 +54,6 @@ function AllRecords() {
     fetchData();
   }, [userId]);
 
-  console.log("allRecords", allRecords);
   return (
     <div>
       <button
@@ -81,12 +84,27 @@ function AllRecords() {
         if (record.collectionName === "appointments") {
           return (
             <React.Fragment key={record.id}>
-              <SingleAppointment appointment={record} />
+              <SingleAppointmentCard appointment={record} />
             </React.Fragment>
           );
         } else if (record.collectionName === "test_results") {
+          return (
+            <React.Fragment key={record.id}>
+              <SingleResultsCard result={record} />
+            </React.Fragment>
+          );
         } else if (record.collectionName === "sexual_relations") {
+          return (
+            <React.Fragment key={record.id}>
+              <SingleRelationCard relation={record} />
+            </React.Fragment>
+          );
         } else if (record.collectionName === "symptoms") {
+          return (
+            <React.Fragment key={record.id}>
+              <SingleSymptomCard symptom={record} />
+            </React.Fragment>
+          );
         }
       })}
     </div>

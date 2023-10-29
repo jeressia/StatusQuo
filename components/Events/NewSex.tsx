@@ -12,14 +12,6 @@ interface PartnerStatus {
   statusName: string;
 }
 
-interface SexualRelations {
-  date_of_relations: Timestamp;
-  isProtected: boolean;
-  partner_name: string;
-  partner_number: string;
-  partner_status: string;
-}
-
 function NewSex(props: NewEventProps) {
   const { onSubmitEvent } = props;
   const [startDate, setStartDate] = useState(new Date());
