@@ -6,6 +6,7 @@ import AppointmentView from "../Events/EventView";
 
 import styles from "./Dashboard.module.scss";
 import QRView from "../QR/QRView";
+import { useUser } from "../UserProvider";
 
 interface DashboardProps {
   user: any;
@@ -15,6 +16,7 @@ interface DashboardProps {
 }
 
 const Dashboard = (props: DashboardProps) => {
+  const { userProfile } = useUser();
   const { appointments, user, userId, setAppointments } = props;
   const [loading, setLoading] = useState(false);
 
@@ -24,7 +26,9 @@ const Dashboard = (props: DashboardProps) => {
     ) : (
       <div className={styles.dashboard}>
         <div className={styles.greeting}>
-          <p>Hello, {user.name ? user.name : "New User"}! </p>
+          <p>
+            Hello, {userProfile.user_name ? userProfile.user_name : "New User"}!
+          </p>
         </div>
         <AppointmentView
           appointments={appointments}

@@ -8,7 +8,7 @@ function Home() {
   const { loggedIn, user, userId } = useUser();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
 
-  return loggedIn ? (
+  return loggedIn && userId !== null ? (
     <div className="App">
       <Dashboard
         user={user}

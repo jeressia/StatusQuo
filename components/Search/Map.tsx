@@ -5,26 +5,32 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { GoogleMap, Marker, MarkerClusterer } from "@react-google-maps/api";
+import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
+import axios from "axios";
+
 import Places from "./Places";
-// import Distance from "./distance";
 
 export type LatLngLiteral = google.maps.LatLngLiteral;
-type DirectionsResult = google.maps.DirectionsResult;
 type MapOptions = google.maps.MapOptions;
 
 const Map: React.FC = () => {
-  const [location, setLocation] = useState<LatLngLiteral>();
+  const [location, setLocation] = useState<LatLngLiteral>({
+    lat: 36.1627,
+    lng: 86.7816,
+  });
+  const [relevantPlaces, setRelevantPlaces] = useState<LatLngLiteral[]>([]);
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const mapRef = useRef<GoogleMap | null>(null);
   const center = useMemo<LatLngLiteral>(
     () => location || { lat: 36.01973, lng: -86.57831 },
     [location]
   );
+  const [zoom, setZoom] = useState(15);
 
   const options = useMemo<MapOptions>(
     () => ({
       disableDefaultUI: true,
-      clickableIcons: false,
+      clickableIcons: true,
       mapId: "4dbafae57e10f64f",
     }),
     []
@@ -32,29 +38,40 @@ const Map: React.FC = () => {
 
   const onLoad = useCallback((map: any) => (mapRef.current = map), []);
 
-  const customMarkerIcon = {
-    url: "/gpspin.svg", // URL to your custom marker icon image
-    scaledSize: new window.google.maps.Size(35, 35), // Size of the marker icon
-    origin: new window.google.maps.Point(0, 0), // Position of the icon's origin within the image
-    anchor: new window.google.maps.Point(25, 25), // Anchor of the marker (centered in this case)
-  };
+  const placesFilterSearch = async (
+    searchFilter: string,
+    location: LatLngLiteral,
+    radius: number
+  ) => {
+    const params = {
+      location: `${location.lat}, ${location.lng}`,
+      key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY,
+      input: searchFilter,
+      keyword: searchFilter,
+      radius,
+      inputtype: "textquery",
+      category: "health",
+      types: "health|hospital",
+    };
 
-  const generateInterestPlaces = (position: LatLngLiteral) => {
-    const _interestPlaces: LatLngLiteral[] = [];
-    for (let i = 0; i < 100; i++) {
-      const direction = Math.random() < 0.5 ? -2 : 2;
-      _interestPlaces.push({
-        lat: position.lat + Math.random() / direction,
-        lng: position.lng + Math.random() / direction,
-      });
+    const apiUrl = "/api/places";
+
+    try {
+      const response = await axios.get(apiUrl, { params });
+      if (response && response.data && response.data.results) {
+        const placesData = response.data.results;
+        if (placesData.length > 0) {
+          setRelevantPlaces(placesData);
+          setLocation(placesData[0].geometry.location);
+          setZoom(12);
+        }
+      } else {
+        console.error("No results found in the API response.");
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
-    return _interestPlaces;
   };
-
-  const interestPlaces = useMemo(
-    () => generateInterestPlaces(center),
-    [center]
-  );
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -64,7 +81,7 @@ const Map: React.FC = () => {
           lng: position.coords.longitude,
         };
         setLocation(userLocation);
-        mapRef.current?.panTo(userLocation); // Set the map's center to the user's location
+        mapRef.current?.panTo(userLocation);
       });
     }
   }, []);
@@ -73,7 +90,7 @@ const Map: React.FC = () => {
     <div className="MapComponent">
       <div className="map">
         <GoogleMap
-          zoom={15}
+          zoom={zoom}
           center={center}
           mapContainerClassName="map-container"
           options={options}
@@ -81,23 +98,32 @@ const Map: React.FC = () => {
         >
           {location && (
             <>
-              <Marker position={location} icon={customMarkerIcon} />
-              <MarkerClusterer>
-                {(clusterer) => (
-                  <>
-                    {interestPlaces.map((location: any) => (
-                      <Marker
-                        key={location.lat}
-                        position={location}
-                        clusterer={clusterer}
-                      />
-                    ))}
-                  </>
-                )}
-              </MarkerClusterer>
-
-              {/* <Circle center={location} radius={400} /> */}
+              <Marker position={location} />
+              <>
+                {relevantPlaces.map((place: any) => (
+                  <Marker
+                    key={place.geometry.location.lat}
+                    position={place.geometry.location}
+                    onClick={() => {
+                      setSelectedPlace(place);
+                    }}
+                  />
+                ))}
+              </>
             </>
+          )}
+          {selectedPlace && (
+            <InfoWindow
+              position={selectedPlace.geometry.location}
+              onCloseClick={() => {
+                setSelectedPlace(null);
+              }}
+            >
+              <div>
+                <p>{selectedPlace.name}</p>
+                <p>{selectedPlace.vicinity}</p>
+              </div>
+            </InfoWindow>
           )}
         </GoogleMap>
       </div>
@@ -110,10 +136,32 @@ const Map: React.FC = () => {
           }}
         />
         <div>
-          <button className="btn btn-danger btn-sm">STD Testing</button>
-          <button className="btn btn-danger btn-sm"> Pharmacy</button>
-          <button className="btn btn-danger btn-sm">Contraceptives</button>
-          <button className="btn btn-danger btn-sm">Advocacy</button>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => placesFilterSearch("std testing", location, 1500)}
+          >
+            STD Testing
+          </button>
+          <button
+            onClick={() => placesFilterSearch("pharmacy", location, 1500)}
+            className="btn btn-danger btn-sm"
+          >
+            Pharmacy
+          </button>
+          <button
+            onClick={() => placesFilterSearch("clinic", location, 1500)}
+            className="btn btn-danger btn-sm"
+          >
+            Contraceptives
+          </button>
+          <button
+            onClick={() =>
+              placesFilterSearch("planned parenthood|hiv|lgbtq", location, 1500)
+            }
+            className="btn btn-danger btn-sm"
+          >
+            Advocacy
+          </button>
         </div>
       </div>
     </div>
