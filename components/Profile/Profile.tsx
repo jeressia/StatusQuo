@@ -108,8 +108,6 @@ const Profile = () => {
     });
   };
 
-  console.log("userName: ", userName);
-
   const view = () => (
     <div className={styles.profile}>
       <h1>Profile Settings</h1>
