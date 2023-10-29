@@ -1,23 +1,39 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-
+import { storage } from "../../utils/firebase";
+import { ref, uploadBytes } from "firebase/storage";
+import { v4 } from "uuid";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { NewEventProps } from "./NewTestResults";
 import { Symptom } from "../../types/Interfaces";
+import { useUser } from "../UserProvider";
 
 function NewSymptoms(props: NewEventProps) {
+  const { userId } = useUser();
   const { onSubmitEvent } = props;
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [imgUrl, setImgUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUpload, setImageUpload] = useState<File | null>(null);
   const [symptomType, setSymptomType] = useState("");
 
   const symptomsToCreate: Symptom = {
     date_started: startDate,
     date_ended: endDate,
-    photo_upload_url: imgUrl,
+    photo_upload_url: imageUrl,
     type_of_symptom: symptomType,
+  };
+
+  const uploadImage = () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(
+      storage,
+      `images/${userId}/${imageUpload.name + v4()}`
+    );
+    uploadBytes(imageRef, imageUpload).then(() => {
+      alert("Image Uploaded");
+    });
   };
 
   return (
@@ -65,10 +81,14 @@ function NewSymptoms(props: NewEventProps) {
         <div className="col-sm-9">
           <input
             id="AppointmentTitle"
-            type="text"
+            type="file"
             className="form-control"
-            placeholder="Partner Name"
-            onChange={(e) => setImgUrl(e.target.value)}
+            onChange={(e) => {
+              const selectedFile = e.target.files?.[0];
+              if (selectedFile) {
+                setImageUpload(selectedFile);
+              }
+            }}
           />
         </div>
       </div>
@@ -87,6 +107,7 @@ function NewSymptoms(props: NewEventProps) {
       <button
         onClick={(e: any) => {
           onSubmitEvent(e, "symptoms", symptomsToCreate);
+          uploadImage();
         }}
       >
         + Add
