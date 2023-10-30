@@ -21,7 +21,7 @@ Hey! I'm Jeressia Williamson, a software engineer of 4 years living in Nashville
 
 ## Design Tools
 
-- [Figma](https://www.figma.com/
+- [Figma](https://www.figma.com/)
 - [Bootstrap UI Kit](https://react-bootstrap.netlify.app/)
 
 ## How to use the application
