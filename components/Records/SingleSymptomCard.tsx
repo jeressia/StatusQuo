@@ -27,7 +27,7 @@ function SingleSymptomCard(props: SingleSymptomProps) {
         ""
       )}
       {showImage && symptom.photo_upload_url !== null && (
-        <img src={symptom.photo_upload_url} />
+        <img className={styles.symptomImg} src={symptom.photo_upload_url} />
       )}
     </div>
   );

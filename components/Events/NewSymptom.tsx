@@ -50,11 +50,10 @@ function NewSymptoms(props: NewEventProps) {
     );
     await uploadBytes(imageRef, imageUpload)
       .then(() => {
-        return getDownloadURL(imageRef); // Wait for the image URL
+        return getDownloadURL(imageRef);
       })
       .then((url) => {
-        alert("Image Uploaded");
-        setImageUrl(url); // Set the URL after the image is fully uploaded
+        setImageUrl(url);
       })
       .catch((error) => {
         console.error("Error getting download URL:", error);
