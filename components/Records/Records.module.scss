@@ -17,6 +17,15 @@
 .reminderDoctorCard,
 .reminderPrescriptionCard {
   display: flex;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 5px 0;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .doctorIcon,
@@ -27,4 +36,28 @@
 .viewImgLink {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.addNewBtn {
+  border-radius: 25px;
+  background: #b8d9ee;
+  width: 120px;
+  height: 38px;
+  text-align: center;
+  padding: 7px;
+  text-decoration: none;
+  color: black;
+}
+
+.reminderCard {
+  border-radius: 10px;
+  background: #193a3a;
+  padding: 15px;
+  color: white;
+  margin-top: 10px;
+}
+
+.reminderCardTitle {
+  text-transform: uppercase;
+  font-weight: bold;
 }
