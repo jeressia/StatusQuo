@@ -11,9 +11,11 @@ function SingleSymptomCard(props: SingleSymptomProps) {
   const { symptom } = props;
   const [showImage, setShowImage] = useState(false);
   return (
-    <div className="card">
-      <p>{timeNormalizer(symptom?.date_started)}</p>
-      <span>New Symptom Reports</span>
+    <div className={styles.recordCard}>
+      <p className={styles.recordCardDate}>
+        {timeNormalizer(symptom?.date_started)}
+      </p>
+      <span className={styles.recordCardDesc}>New Symptom Reports</span>
       {symptom.photo_upload_url !== null ? (
         <p className={styles.viewImgLink} onClick={() => setShowImage(true)}>
           View Image

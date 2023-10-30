@@ -8,6 +8,8 @@ import SingleRelationCard from "./SingleRelationCard";
 import SingleSymptomCard from "./SingleSymptomCard";
 import Loader from "../Loader";
 
+import styles from "./Records.module.scss";
+
 function AllRecords() {
   const { userId, firebaseLoaded } = useUser();
   const [allRecords, setAllRecords] = useState<any[]>([]);
@@ -56,31 +58,33 @@ function AllRecords() {
   return !firebaseLoaded ? (
     <Loader />
   ) : (
-    <div>
-      <button
-        className="btn btn-danger btn-sm"
-        // onClick={() => placesFilterSearch("std testing", location, 1500)}
-      >
-        All
-      </button>
-      <button
-        // onClick={() => placesFilterSearch("pharmacy", location, 1500)}
-        className="btn btn-danger btn-sm"
-      >
-        Appointment
-      </button>
-      <button
-        // onClick={() => placesFilterSearch("clinic", location, 1500)}
-        className="btn btn-danger btn-sm"
-      >
-        Sexual History
-      </button>
-      <button
-        // onClick={() =>{ // placesFilterSearch("planned parenthood|hiv|lgbtq", location, 1500)}
-        className="btn btn-danger btn-sm"
-      >
-        Test Results
-      </button>
+    <div className={styles.allRecordsContainer}>
+      <div className={styles.filterBtns}>
+        <button
+          className="btn btn-danger btn-sm mr-2"
+          // onClick={() => placesFilterSearch("std testing", location, 1500)}
+        >
+          All
+        </button>
+        <button
+          // onClick={() => placesFilterSearch("pharmacy", location, 1500)}
+          className="btn btn-light btn-sm"
+        >
+          Appointment
+        </button>
+        <button
+          // onClick={() => placesFilterSearch("clinic", location, 1500)}
+          className="btn btn-light btn-sm"
+        >
+          Sexual History
+        </button>
+        <button
+          // onClick={() =>{ // placesFilterSearch("planned parenthood|hiv|lgbtq", location, 1500)}
+          className="btn btn-light btn-sm"
+        >
+          Test Results
+        </button>
+      </div>
       {allRecords.map((record: any) => {
         const uniqueKey = `${record.collectionName}-${record.id}`;
         if (record.collectionName === "appointments") {
