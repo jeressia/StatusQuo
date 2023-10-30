@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../Layout";
 
-import styles from "./Profile.module.scss";
 import { Form } from "react-bootstrap";
 import { useUser } from "../UserProvider";
 import { updateProfile } from "firebase/auth";
@@ -15,6 +14,8 @@ import {
   where,
 } from "firebase/firestore";
 import { auth, db } from "../../utils/firebase";
+
+import styles from "./Profile.module.scss";
 
 interface UserProfile {
   automatic_send?: boolean;
@@ -70,16 +71,9 @@ const Profile = () => {
     });
   }, [userName, hiv, herpes]);
 
-  const [docId, setDocID] = useState(0);
-
   const onSubmitProfile = async (e: any, data: UserProfile | undefined) => {
     e.preventDefault();
     setEditMode(false);
-
-    const appointmentsByUser = query(
-      collection(db, "appointments"),
-      where("user_id", "==", userId)
-    );
 
     const userDocRef = doc(collection(db, "users"), auth?.currentUser?.uid);
     const userDocSnapshot = await getDoc(userDocRef);
@@ -97,96 +91,89 @@ const Profile = () => {
     }
   };
 
-  const updateAppointment = async (id: string) => {
-    const appointmentToUpdate = doc(db, "users", id);
-    await updateDoc(appointmentToUpdate, {
-      ...userProfile,
-      automatic_send: anonymousData,
-      herpes_positive: herpes,
-      hiv_positive: hiv,
-      user_name: userName,
-      user_id: auth?.currentUser?.uid,
-    });
-  };
-
   const view = () => (
     <div className={styles.profile}>
       <h1>Profile Settings</h1>
-      <div className="form-group row">
-        <label htmlFor="userName" className="col-sm-3">
-          Name:
-        </label>
-        <div className="col-sm-4">
-          {editMode ? (
-            <input
-              id="userName"
-              type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-              onBlur={() => {
-                if (user !== null)
-                  updateProfile(user, {
-                    displayName: userName,
-                  });
-              }}
+      <div className={styles.profileForm}>
+        <div className="form-group row">
+          <label htmlFor="userName" className="col-sm-3">
+            Name:
+          </label>
+          <div className="col-sm-5">
+            {editMode ? (
+              <input
+                id="userName"
+                type="text"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+                onBlur={() => {
+                  if (user !== null)
+                    updateProfile(user, {
+                      displayName: userName,
+                    });
+                }}
+              />
+            ) : (
+              <p>{userName}</p>
+            )}
+          </div>
+          <div className="col-sm-1">
+            <a href="#" onClick={() => setEditMode(true)}>
+              Edit?
+            </a>
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="email" className="col-sm-3">
+            Email:
+          </label>
+          <div className="col-sm-4">
+            <p id="email">{user?.email}</p>
+          </div>
+        </div>
+        <div className="form-group row">
+          <label htmlFor="herpes" className="col-sm-3">
+            <p>Herpes+</p>
+          </label>
+          <div className="col-sm-3">
+            <Form.Check
+              type="switch"
+              id="herpes"
+              checked={herpes}
+              onChange={() => handleToggle("herpes")}
             />
-          ) : (
-            <p>{userName}</p>
-          )}
+          </div>
         </div>
-        <div className="col-sm-2">
-          <a href="#" onClick={() => setEditMode(true)}>
-            Edit?
-          </a>
+        <div className="form-group row">
+          <label htmlFor="herpes" className="col-sm-3">
+            HIV+
+          </label>
+          <div className="col-sm-3">
+            <Form.Check
+              type="switch"
+              id="protected-switch"
+              checked={hiv}
+              onChange={() => handleToggle("hiv")}
+            />
+          </div>
         </div>
-      </div>
-      <div className="form-group row">
-        <label htmlFor="email" className="col-sm-3">
-          Email:
-        </label>
-        <div className="col-sm-4">
-          <p id="email">{user?.email}</p>
+        <div className="form-group row">
+          <label htmlFor="anonSend" className="col-sm-6">
+            Automatically Send Anonymous Results?
+          </label>
+          <div className="col-sm-3">
+            <Form.Check
+              type="switch"
+              id="protected-switch"
+              checked={anonymousData}
+              disabled
+              onChange={() => handleToggle("anonymousData")}
+            />
+          </div>
         </div>
-      </div>
-      <div className="form-group row">
-        <label htmlFor="herpes" className="col-sm-3">
-          <p>Herpes+</p>
-        </label>
-        <div className="col-sm-4">
-          <Form.Check
-            type="switch"
-            id="herpes"
-            checked={herpes}
-            onChange={() => handleToggle("herpes")}
-          />
-        </div>
-      </div>
-      <div className="form-group row">
-        <label htmlFor="herpes" className="col-sm-3">
-          HIV+
-        </label>
-        <div className="col-sm-4">
-          <Form.Check
-            type="switch"
-            id="protected-switch"
-            checked={hiv}
-            onChange={() => handleToggle("hiv")}
-          />
-        </div>
-      </div>
-      <label htmlFor="anonSend" className="col-sm-3">
-        Automatically Send Anonymous Results?
-      </label>
-      <div className="col-sm-4">
-        <Form.Check
-          type="switch"
-          id="protected-switch"
-          checked={anonymousData}
-          disabled
-          onChange={() => handleToggle("anonymousData")}
-        />
       </div>
       <button
+        className="btn btn-secondary mb-2"
         onClick={(e: any) => {
           onSubmitProfile(e, userProfile);
         }}
@@ -194,6 +181,7 @@ const Profile = () => {
         Update Profile
       </button>
       <button
+        className="btn btn-danger"
         onClick={(e: any) => {
           signOutUser();
         }}

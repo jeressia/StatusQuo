@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -16,45 +16,53 @@ function NewSymptoms(props: NewEventProps) {
   const [endDate, setEndDate] = useState(new Date());
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageUpload, setImageUpload] = useState<File | null>(null);
-  const [symptomType, setSymptomType] = useState("");
+  const [symptomType, setSymptomType] = useState<string[]>([]);
 
-  const symptomsToCreate: Symptom = {
-    date_started: startDate,
-    date_ended: endDate,
-    photo_upload_url: imageUrl,
-    type_of_symptom: symptomType,
-  };
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      setImageUpload(selectedFile);
-      uploadImage(); // Initiate the upload when a file is selected
+  const addSymptomType = (symptom: string, checked: boolean) => {
+    if (checked) {
+      setSymptomType([...symptomType, symptom]);
+    } else {
+      setSymptomType(symptomType.filter((item) => item !== symptom));
     }
   };
 
-  const uploadImage = () => {
-    if (imageUpload == null) return;
+  useEffect(() => {
+    if (imageUpload) {
+      uploadImage();
+    }
+  }, [imageUpload]);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("added image");
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile) {
+      setImageUpload(selectedFile);
+      uploadImage();
+    }
+  };
+
+  const uploadImage = async () => {
+    console.log("uploadingImage");
+    if (imageUpload === null) return;
     const imageRef = ref(
       storage,
       `images/${userId}/${imageUpload.name + v4()}`
     );
-    uploadBytes(imageRef, imageUpload).then(() => {
-      getDownloadURL(imageRef)
-        .then((url) => {
-          alert("Image Uploaded");
-          setImageUrl(url);
-        })
-        .catch((error) => {
-          console.error("Error getting download URL:", error);
-        });
-    });
+    await uploadBytes(imageRef, imageUpload)
+      .then(() => {
+        return getDownloadURL(imageRef);
+      })
+      .then((url) => {
+        setImageUrl(url);
+      })
+      .catch((error) => {
+        console.error("Error getting download URL:", error);
+      });
   };
 
   const handleSubmit = (e: any) => {
-    e.preventDefault(); // Prevent the form from submitting by default
+    e.preventDefault();
 
-    // Check if the image has been uploaded and its URL is available
     if (imageUrl) {
       const symptomsToCreate: Symptom = {
         date_started: startDate,
@@ -64,7 +72,6 @@ function NewSymptoms(props: NewEventProps) {
       };
       onSubmitEvent(e, "symptoms", symptomsToCreate);
     } else {
-      // Handle the case where the image hasn't been uploaded yet
       alert("Please wait for the image to finish uploading.");
     }
   };
@@ -112,7 +119,7 @@ function NewSymptoms(props: NewEventProps) {
             id="AppointmentTitle"
             type="file"
             className="form-control"
-            onChange={handleFileChange}
+            onChange={(e) => handleFileChange(e)}
           />
         </div>
       </div>
@@ -121,18 +128,186 @@ function NewSymptoms(props: NewEventProps) {
           Symptom Type
         </label>
         <div className="col-sm-9">
-          <input
-            type="switch"
-            id="protected-switch"
-            onChange={(e) => setSymptomType(e.target.value)}
-          />
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="itching"
+              value="option1"
+              checked={symptomType.includes("itching")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="itching">
+              Itching
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="burning"
+              value="option2"
+              checked={symptomType.includes("burning")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="burning">
+              Burning
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="rash"
+              value="option3"
+              checked={symptomType.includes("rash")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="rash">
+              Rash
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="odor"
+              value="option1"
+              checked={symptomType.includes("odor")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="odor">
+              Odor
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="discharge"
+              value="option2"
+              checked={symptomType.includes("discharge")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="discharge">
+              Discharge
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="abdominalpain"
+              value="option3"
+              checked={symptomType.includes("abdominalpain")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="abdominalpain">
+              Abdominal Pain
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="fatigue"
+              value="option1"
+              checked={symptomType.includes("fatigue")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="fatigue">
+              Fatigue
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="fever"
+              value="option2"
+              checked={symptomType.includes("fever")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="fever">
+              Fever
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="sorethroat"
+              value="option3"
+              checked={symptomType.includes("sorethroat")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="sorethroat">
+              Sore Throat
+            </label>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="nightsweats"
+              value="option3"
+              checked={symptomType.includes("nightsweats")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="nightsweats">
+              Night Sweats
+            </label>
+            <div className="form-check form-check-inline">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                name="inlineRadioOptions"
+                id="lymph"
+                value="option3"
+                checked={symptomType.includes("lymph")}
+                onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+              />
+              <label className="form-check-label" htmlFor="lymph">
+                Swollen Lymph Nodes
+              </label>
+            </div>
+          </div>
+          <div className="form-check form-check-inline">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              name="inlineRadioOptions"
+              id="diarrhea"
+              value="option3"
+              checked={symptomType.includes("diarrhea")}
+              onChange={(e) => addSymptomType(e.target.id, e.target.checked)}
+            />
+            <label className="form-check-label" htmlFor="diarrhea">
+              Diarrhea
+            </label>
+          </div>
         </div>
       </div>
-      <button type="submit">+ Add</button>
+      <button
+        className="btn btn-danger blue-btn"
+        onClick={(e: any) => {
+          handleSubmit(e);
+        }}
+      >
+        Add New Appointment
+      </button>
     </form>
   );
 }
 
 export default NewSymptoms;
-
-// Itching, Burning, Odor, Rash, Discharge, Abdominal Pain, Fatigue, Fever, Sore Throat, Night Sweats, Diarrhea, Swollen Lymph Nodes,

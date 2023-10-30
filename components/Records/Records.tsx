@@ -1,20 +1,15 @@
 import React, { useState } from "react";
 import Layout from "../Layout";
 
-import styles from "./Records.module.scss";
 import RecordsReminders from "./RecordsReminders";
 import Link from "next/link";
 import AllRecords from "./AllRecords";
 import Prescriptions from "./Prescriptions";
 import { useUser } from "../UserProvider";
 
-export interface Reminder {
-  reminder_type: string; //Rx Refill Soon, Rx Last Refill, Appt need to be scheduled
-  doctor_name: string;
-  important_date: string;
-  service?: string;
-  medication?: string;
-}
+import styles from "./Records.module.scss";
+import { Reminder } from "../../types/Interfaces";
+
 const Records = () => {
   const { hiv, herpes } = useUser();
 
@@ -35,8 +30,8 @@ const Records = () => {
   const view = () => (
     <div className={styles.Records}>
       <div className={styles.recordsHeader}>
-        <h1>Records</h1>
-        <Link className="nav-link" href={`/addnew`}>
+        <h1>All Records</h1>
+        <Link className={styles.addNewBtn} href={`/addnew`}>
           + Add
         </Link>
       </div>

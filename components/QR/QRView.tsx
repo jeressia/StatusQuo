@@ -1,9 +1,10 @@
 import React from "react";
+import styles from "./QR.module.scss";
 
 function QRView() {
   return (
-    <div>
-      <img style={{ width: "300px" }} src="/sampleQR.svg" />
+    <div className={styles.qrView}>
+      <img className={styles.qrCode} src="/sampleQR.svg" />
       <p>Share Status</p>
     </div>
   );

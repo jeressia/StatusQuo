@@ -26,24 +26,13 @@ interface AppointmentProps {
 
 function AppointmentView(props: AppointmentProps) {
   const { userId } = useUser();
-
-  const [updatedTitle, setUpdatedTitle] = useState("");
+  console.log("userId in eventview", userId);
   const { appointments, setAppointments } = props;
-
-  const collectionRef = collection(db, "appointments");
 
   const appointmentsByUser = query(
     collection(db, "appointments"),
     where("user_id", "==", userId)
   );
-
-  const updateAppointment = async (id: string) => {
-    const appointmentToUpdate = doc(db, "appointments", id);
-    await updateDoc(appointmentToUpdate, {
-      appointment_description: updatedTitle,
-    });
-    getAppointments();
-  };
 
   const getAppointments = async () => {
     try {
@@ -61,37 +50,28 @@ function AppointmentView(props: AppointmentProps) {
   useEffect(() => {
     getAppointments();
   }, []);
-
+  const hasAppointments = appointments.length > 0;
   return (
-    <div className={styles.upcomingAppointments}>
-      <h1>Upcoming Appointments</h1>
-      {appointments && appointments.length > 0 ? (
-        <ul>
-          {appointments.map((appointment: Appointment) => (
-            <div key={appointment.id}>
-              <li>{appointment.appointment_title}</li>
-              {/* <p>{timeNormalizer(appointment?.appointment_start_at)}</p> */}
-              <UpdateAppointment
-                appointment={appointment}
-                updateAppointment={updateAppointment}
-                updatedTitle={updatedTitle}
-                setUpdatedTitle={setUpdatedTitle}
-              />
-              <DeleteAppointment
-                // getAppointments={getAppointments}
-                appointment={appointment}
-              />
+    <>
+      <div className={styles.notificationsHeader}>
+        <span className={styles.reminders}>Notifications</span>
+        <span className={hasAppointments ? styles.alertPill : "d-none"}>
+          {hasAppointments ? appointments.length : ""}
+        </span>
+      </div>
+      <div className={styles.upcomingAppointments}>
+        {appointments && hasAppointments ? (
+          appointments.map((appointment: Appointment) => (
+            <div key={appointment.id} className={styles.reminderCard}>
+              <span>{appointment.appointment_purpose}</span>
+              <span>{timeNormalizer(appointment?.appointment_start_at)}</span>
             </div>
-          ))}
-        </ul>
-      ) : (
-        <p>No upcoming appointments</p>
-      )}
-
-      <Link className="nav-link" href={`/addnew`}>
-        + Add
-      </Link>
-    </div>
+          ))
+        ) : (
+          <p className={styles.noNotifications}>No Notifications</p>
+        )}
+      </div>
+    </>
   );
 }
 

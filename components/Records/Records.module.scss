@@ -5,6 +5,8 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  overflow-y: scroll;
+  background-color: #f0f0f0;
 }
 
 .recordsHeader {
@@ -17,6 +19,15 @@
 .reminderDoctorCard,
 .reminderPrescriptionCard {
   display: flex;
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 5px 0;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .doctorIcon,
@@ -27,4 +38,76 @@
 .viewImgLink {
   cursor: pointer;
   text-decoration: underline;
+  padding: 0 11px;
+}
+
+.addNewBtn {
+  border-radius: 25px;
+  background: #b8d9ee;
+  width: 120px;
+  height: 38px;
+  text-align: center;
+  padding: 7px;
+  text-decoration: none;
+  color: black;
+}
+
+.reminderCard {
+  border-radius: 10px;
+  background: #193a3a;
+  padding: 15px;
+  color: white;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.reminderCardTitle {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.allRecordsContainer {
+  margin-bottom: 120px;
+}
+
+.filterBtns {
+  margin-bottom: 10px;
+  display: flex;
+  gap: 5px;
+}
+
+.recordCard {
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.175);
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+}
+
+.recordCardDate {
+  color: #000;
+  font-family: Raleway;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 10px;
+  margin-bottom: 4px;
+}
+
+.recordCardDesc {
+  color: #000;
+  font-family: Raleway;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 10px;
+  margin-bottom: 14px;
+}
+
+.symptomImg {
+  width: 300px;
+  display: block;
+  margin: 0 auto;
 }

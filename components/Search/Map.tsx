@@ -10,6 +10,8 @@ import axios from "axios";
 
 import Places from "./Places";
 
+import styles from "./Search.module.scss";
+
 export type LatLngLiteral = google.maps.LatLngLiteral;
 type MapOptions = google.maps.MapOptions;
 
@@ -135,7 +137,7 @@ const Map: React.FC = () => {
             mapRef.current?.panTo(position);
           }}
         />
-        <div>
+        <div className={styles.searchBtnContainer}>
           <button
             className="btn btn-danger btn-sm"
             onClick={() => placesFilterSearch("std testing", location, 1500)}

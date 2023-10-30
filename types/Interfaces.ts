@@ -34,5 +34,13 @@ export interface Symptom {
   date_started: Date;
   date_ended: Date;
   photo_upload_url: string | null;
-  type_of_symptom: string;
+  type_of_symptom: string[];
+}
+
+export interface Reminder {
+  reminder_type: string; //Rx Refill Soon, Rx Last Refill, Appt need to be scheduled
+  doctor_name: string;
+  important_date: string;
+  service?: string;
+  medication?: string;
 }

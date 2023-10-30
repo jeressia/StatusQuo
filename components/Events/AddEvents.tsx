@@ -23,7 +23,7 @@ function AddEvents() {
 
   const eventTypes = [
     { id: 1, event_type: "Appointment", icon: "/appointment.svg" },
-    { id: 2, event_type: "Sexual Relations", icon: "/sexualrelations.svg" },
+    { id: 2, event_type: "Sexual Activity", icon: "/sexualrelations.svg" },
     { id: 3, event_type: "Test Results", icon: "/testresults.svg" },
     { id: 4, event_type: "Symptom", icon: "/symptom.svg" },
     { id: 5, event_type: "Medication", icon: "medication/.svg" },
@@ -127,7 +127,7 @@ function AddEvents() {
         <div className={styles.newForm}>
           {typeOfEventToAdd === "Appointment" ? (
             <NewAppointment onSubmitEvent={onSubmitEvent} />
-          ) : typeOfEventToAdd === "Sexual Relations" ? (
+          ) : typeOfEventToAdd === "Sexual Activity" ? (
             <NewSex onSubmitEvent={onSubmitEvent} />
           ) : typeOfEventToAdd === "Test Results" ? (
             <NewTestResults onSubmitEvent={onSubmitEvent} />

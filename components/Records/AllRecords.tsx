@@ -8,9 +8,12 @@ import SingleRelationCard from "./SingleRelationCard";
 import SingleSymptomCard from "./SingleSymptomCard";
 import Loader from "../Loader";
 
+import styles from "./Records.module.scss";
+
 function AllRecords() {
   const { userId, firebaseLoaded } = useUser();
   const [allRecords, setAllRecords] = useState<any[]>([]);
+  const [eventsToShow, setEventsToShow] = useState("all");
   const collectionNames = [
     "appointments",
     "medications",
@@ -53,59 +56,78 @@ function AllRecords() {
     fetchData();
   }, [userId]);
 
+  const filteredRecords =
+    eventsToShow === "all"
+      ? allRecords
+      : allRecords.filter((record) => record.collectionName === eventsToShow);
+
   return !firebaseLoaded ? (
     <Loader />
   ) : (
-    <div>
-      <button
-        className="btn btn-danger btn-sm"
-        // onClick={() => placesFilterSearch("std testing", location, 1500)}
-      >
-        All
-      </button>
-      <button
-        // onClick={() => placesFilterSearch("pharmacy", location, 1500)}
-        className="btn btn-danger btn-sm"
-      >
-        Appointment
-      </button>
-      <button
-        // onClick={() => placesFilterSearch("clinic", location, 1500)}
-        className="btn btn-danger btn-sm"
-      >
-        Sexual History
-      </button>
-      <button
-        // onClick={() =>{ // placesFilterSearch("planned parenthood|hiv|lgbtq", location, 1500)}
-        className="btn btn-danger btn-sm"
-      >
-        Test Results
-      </button>
-      {allRecords.map((record: any) => {
-        if (record.collectionName === "appointments") {
-          return (
-            <React.Fragment key={record.id}>
-              <SingleAppointmentCard appointment={record} />
-            </React.Fragment>
-          );
-        } else if (record.collectionName === "test_results") {
-          return (
-            <React.Fragment key={record.id}>
-              <SingleResultsCard result={record} />
-            </React.Fragment>
-          );
-        } else if (record.collectionName === "sexual_relations") {
-          return (
-            <React.Fragment key={record.id}>
-              <SingleRelationCard relation={record} />
-            </React.Fragment>
-          );
-        } else if (record.collectionName === "symptoms") {
-          return (
-            <React.Fragment key={record.id}>
-              <SingleSymptomCard symptom={record} />
-            </React.Fragment>
-          );
+    <div className={styles.allRecordsContainer}>
+      <div className={styles.filterBtns}>
+        <button
+          className={`btn btn-danger btn-sm mr-2 ${
+            eventsToShow === "all" ? "active" : ""
+          }`}
+          onClick={() => setEventsToShow("all")}
+        >
+          All
+        </button>
+        <button
+          onClick={() => setEventsToShow("appointments")}
+          className={`btn btn-light btn-sm ${
+            eventsToShow === "appointments" ? "active" : ""
+          }`}
+        >
+          Appointment
+        </button>
+        <button
+          onClick={() => setEventsToShow("sexual_relations")}
+          className={`btn btn-light btn-sm ${
+            eventsToShow === "sexual_relations" ? "active" : ""
+          }`}
+        >
+          Sexual History
+        </button>
+        <button
+          onClick={() => setEventsToShow("test_results")}
+          className={`btn btn-light btn-sm ${
+            eventsToShow === "test_results" ? "active" : ""
+          }`}
+        >
+          Test Results
+        </button>
+      </div>
+      {filteredRecords.map((record: any) => {
+        const uniqueKey = `${record.collectionName}-${record.id}`;
+        switch (record.collectionName) {
+          case "appointments":
+            return (
+              <React.Fragment key={uniqueKey}>
+                <SingleAppointmentCard appointment={record} />
+              </React.Fragment>
+            );
+          case "test_results":
+            return (
+              <React.Fragment key={uniqueKey}>
+                <SingleResultsCard result={record} />
+              </React.Fragment>
+            );
+          case "sexual_relations":
+            return (
+              <React.Fragment key={uniqueKey}>
+                <SingleRelationCard relation={record} />
+              </React.Fragment>
+            );
+          case "symptoms":
+            return (
+              <React.Fragment key={uniqueKey}>
+                <SingleSymptomCard symptom={record} />
+              </React.Fragment>
+            );
+          default:
+            return null;
         }
       })}
     </div>

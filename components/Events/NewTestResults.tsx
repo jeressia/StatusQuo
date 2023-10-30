@@ -74,10 +74,10 @@ function NewTestResults(props: NewEventProps) {
   return (
     <form>
       <div className="form-group row">
-        <label htmlFor="TestDate" className="col-sm-3">
+        <label htmlFor="TestDate" className="col-sm-12">
           Date of Test
         </label>
-        <div className="col-sm-9">
+        <div className="col-sm-12">
           <DatePicker
             id="StartDate"
             showIcon
@@ -176,11 +176,12 @@ function NewTestResults(props: NewEventProps) {
         </div>
       </div>
       <button
+        className="btn btn-danger blue-btn"
         onClick={(e: any) => {
           handleWarning(e);
         }}
       >
-        + Add
+        Add New Sexual Activity
       </button>
     </form>
   );
