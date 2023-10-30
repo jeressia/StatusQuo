@@ -26,11 +26,12 @@ Hey! I'm Jeressia Williamson, a software engineer of 4 years living in Nashville
 
 ## How to use the application
 
-Getting Started
-$ git clone https://github.com/jeressia/StatusQuo.git
-$ cd StatusQuo
-$ npm i
-$ npm run dev
+### Getting Started
+
+ `git clone https://github.com/jeressia/StatusQuo.git`
+ `cd StatusQuo`
+ `npm i`
+ `npm run dev`
 
 - Update the .env.sample file with your API keys from Firebase and GoogleMaps and rename it .env
 - Open http://localhost:3000 with your browser to log in.
