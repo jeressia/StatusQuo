@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { useUser } from "../UserProvider";
-import SingleAppointment from "./SingleAppointmentCard";
 import SingleAppointmentCard from "./SingleAppointmentCard";
 import SingleResultsCard from "./SingleResultsCard";
 import SingleRelationCard from "./SingleRelationCard";

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@google-cloud/vision": "^4.0.2",
     "@popperjs/core": "^2.11.8",
     "@reach/combobox": "^0.18.0",
     "@react-google-maps/api": "^2.19.2",
