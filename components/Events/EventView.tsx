@@ -26,22 +26,13 @@ interface AppointmentProps {
 
 function AppointmentView(props: AppointmentProps) {
   const { userId } = useUser();
-
-  const [updatedTitle, setUpdatedTitle] = useState("");
+  console.log("userId in eventview", userId);
   const { appointments, setAppointments } = props;
 
   const appointmentsByUser = query(
     collection(db, "appointments"),
     where("user_id", "==", userId)
   );
-
-  const updateAppointment = async (id: string) => {
-    const appointmentToUpdate = doc(db, "appointments", id);
-    await updateDoc(appointmentToUpdate, {
-      appointment_description: updatedTitle,
-    });
-    getAppointments();
-  };
 
   const getAppointments = async () => {
     try {
@@ -59,12 +50,17 @@ function AppointmentView(props: AppointmentProps) {
   useEffect(() => {
     getAppointments();
   }, []);
-
+  const hasAppointments = appointments.length > 0;
   return (
     <>
-      <p className={styles.reminders}>Notifications</p>
+      <div className={styles.notificationsHeader}>
+        <span className={styles.reminders}>Notifications</span>
+        <span className={hasAppointments ? styles.alertPill : "d-none"}>
+          {hasAppointments ? appointments.length : ""}
+        </span>
+      </div>
       <div className={styles.upcomingAppointments}>
-        {appointments && appointments.length > 0 ? (
+        {appointments && hasAppointments ? (
           appointments.map((appointment: Appointment) => (
             <div key={appointment.id} className={styles.reminderCard}>
               <span>{appointment.appointment_purpose}</span>
@@ -72,7 +68,7 @@ function AppointmentView(props: AppointmentProps) {
             </div>
           ))
         ) : (
-          <p>No Notifications</p>
+          <p className={styles.noNotifications}>No Notifications</p>
         )}
       </div>
     </>

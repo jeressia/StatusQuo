@@ -4,6 +4,10 @@
   padding: 15px;
 }
 
+.notificationsHeader {
+  display: flex;
+}
+
 .reminderCard {
   display: flex;
   justify-content: space-between;
@@ -19,6 +23,21 @@
   line-height: normal;
   letter-spacing: 1.54px;
   margin: 5px 0;
+}
+
+.alertPill {
+  background-color: #7d0e0e;
+  border-radius: 100%;
+  width: 20px;
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  height: 20px;
+}
+
+.noNotifications {
+  text-align: center;
+  margin-bottom: 0;
 }
 
 @mixin softGlow($color) {
