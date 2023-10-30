@@ -17,8 +17,11 @@ function SingleSymptomCard(props: SingleSymptomProps) {
       </p>
       <span className={styles.recordCardDesc}>New Symptom Reports</span>
       {symptom.photo_upload_url !== null ? (
-        <p className={styles.viewImgLink} onClick={() => setShowImage(true)}>
-          View Image
+        <p
+          className={styles.viewImgLink}
+          onClick={() => setShowImage(!showImage)}
+        >
+          {showImage ? "Hide Image" : "View Image"}
         </p>
       ) : (
         ""
