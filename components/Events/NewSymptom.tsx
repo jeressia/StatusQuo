@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 import { storage } from "../../utils/firebase";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -26,37 +26,39 @@ function NewSymptoms(props: NewEventProps) {
     }
   };
 
-  const symptomsToCreate: Symptom = {
-    date_started: startDate,
-    date_ended: endDate,
-    photo_upload_url: imageUrl,
-    type_of_symptom: symptomType,
-  };
+  useEffect(() => {
+    if (imageUpload) {
+      uploadImage();
+    }
+  }, [imageUpload]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("added image");
     const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setImageUpload(selectedFile);
-      uploadImage(); // Initiate the upload when a file is selected
+      uploadImage();
     }
   };
 
-  const uploadImage = () => {
-    if (imageUpload == null) return;
+  const uploadImage = async () => {
+    console.log("uploadingImage");
+    if (imageUpload === null) return;
     const imageRef = ref(
       storage,
       `images/${userId}/${imageUpload.name + v4()}`
     );
-    uploadBytes(imageRef, imageUpload).then(() => {
-      getDownloadURL(imageRef)
-        .then((url) => {
-          alert("Image Uploaded");
-          setImageUrl(url);
-        })
-        .catch((error) => {
-          console.error("Error getting download URL:", error);
-        });
-    });
+    await uploadBytes(imageRef, imageUpload)
+      .then(() => {
+        return getDownloadURL(imageRef); // Wait for the image URL
+      })
+      .then((url) => {
+        alert("Image Uploaded");
+        setImageUrl(url); // Set the URL after the image is fully uploaded
+      })
+      .catch((error) => {
+        console.error("Error getting download URL:", error);
+      });
   };
 
   const handleSubmit = (e: any) => {
@@ -74,8 +76,6 @@ function NewSymptoms(props: NewEventProps) {
       alert("Please wait for the image to finish uploading.");
     }
   };
-
-  console.log("symptomType", symptomType);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -120,7 +120,7 @@ function NewSymptoms(props: NewEventProps) {
             id="AppointmentTitle"
             type="file"
             className="form-control"
-            onChange={handleFileChange}
+            onChange={(e) => handleFileChange(e)}
           />
         </div>
       </div>
@@ -302,7 +302,7 @@ function NewSymptoms(props: NewEventProps) {
       <button
         className="btn btn-danger blue-btn"
         onClick={(e: any) => {
-          onSubmitEvent(e, "symptoms", symptomsToCreate);
+          handleSubmit(e);
         }}
       >
         Add New Appointment

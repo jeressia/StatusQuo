@@ -87,9 +87,9 @@ function NewSex(props: NewEventProps) {
             className="form-control"
             id="PartnerStatus"
             onChange={(e) => {
-              const selectedStatusId = parseInt(e.target.value); // Parse the value to an integer
+              const selectedStatusId = parseInt(e.target.value);
               const selectedStatusName =
-                e.target.options[e.target.selectedIndex].text; // Get the selected option's text
+                e.target.options[e.target.selectedIndex].text;
 
               setPartnerStatus({
                 id: selectedStatusId,
