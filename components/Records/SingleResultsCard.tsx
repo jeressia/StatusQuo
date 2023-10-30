@@ -12,7 +12,7 @@ function SingleResultsCard(props: SingleResultsProps) {
   return (
     <div className="card">
       <p>{timeNormalizer(result?.date_of_test)}</p>
-      <span>{result.test_type}</span>
+      <span>New STD Test Results Added</span>
     </div>
   );
 }

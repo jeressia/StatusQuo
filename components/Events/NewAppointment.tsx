@@ -25,16 +25,16 @@ function NewAppointment(props: NewEventProps) {
   return (
     <form>
       <div className="form-group row">
-        <label htmlFor="AppointmentTitle" className="col-sm-3">
-          Appointment Title
+        <label htmlFor="Purpose" className="col-sm-3">
+          Appointment Purpose
         </label>
-        <div className="col-sm-9">
+        <div className="col-sm-7">
           <input
-            id="AppointmentTitle"
+            id="Purpose"
             type="text"
             className="form-control"
-            placeholder="Partner Name"
-            onChange={(e) => setTitle(e.target.value)}
+            placeholder="eg. Checkup"
+            onChange={(e) => setPurpose(e.target.value)}
           />
         </div>
       </div>
@@ -83,22 +83,8 @@ function NewAppointment(props: NewEventProps) {
             id="Doctor"
             type="text"
             className="form-control"
-            placeholder="Partner Number"
+            placeholder="eg. Doctor Moore"
             onChange={(e) => setDoctor(e.target.value)}
-          />
-        </div>
-      </div>
-      <div className="form-group row">
-        <label htmlFor="Purpose" className="col-sm-3">
-          Purpose
-        </label>
-        <div className="col-sm-7">
-          <input
-            id="Purpose"
-            type="text"
-            className="form-control"
-            placeholder="Partner Number"
-            onChange={(e) => setPurpose(e.target.value)}
           />
         </div>
       </div>
