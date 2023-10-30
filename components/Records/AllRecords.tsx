@@ -82,27 +82,28 @@ function AllRecords() {
         Test Results
       </button>
       {allRecords.map((record: any) => {
+        const uniqueKey = `${record.collectionName}-${record.id}`;
         if (record.collectionName === "appointments") {
           return (
-            <React.Fragment key={record.id}>
+            <React.Fragment key={uniqueKey}>
               <SingleAppointmentCard appointment={record} />
             </React.Fragment>
           );
         } else if (record.collectionName === "test_results") {
           return (
-            <React.Fragment key={record.id}>
+            <React.Fragment key={uniqueKey}>
               <SingleResultsCard result={record} />
             </React.Fragment>
           );
         } else if (record.collectionName === "sexual_relations") {
           return (
-            <React.Fragment key={record.id}>
+            <React.Fragment key={uniqueKey}>
               <SingleRelationCard relation={record} />
             </React.Fragment>
           );
         } else if (record.collectionName === "symptoms") {
           return (
-            <React.Fragment key={record.id}>
+            <React.Fragment key={uniqueKey}>
               <SingleSymptomCard symptom={record} />
             </React.Fragment>
           );

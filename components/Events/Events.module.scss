@@ -1,5 +1,28 @@
+.upcomingAppointments {
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.reminderCard {
+  display: flex;
+  justify-content: space-between;
+  // min-height: 50px;
+}
+
+.reminders {
+  color: #7d0e0e;
+  font-family: Roboto;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: 1.54px;
+  margin: 5px 0;
+}
+
 @mixin softGlow($color) {
-  box-shadow: 0 0 10px $color; // Adjust the size and color as needed
+  box-shadow: 0 0 10px $color;
 }
 
 .addnew {

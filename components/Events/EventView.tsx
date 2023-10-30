@@ -30,8 +30,6 @@ function AppointmentView(props: AppointmentProps) {
   const [updatedTitle, setUpdatedTitle] = useState("");
   const { appointments, setAppointments } = props;
 
-  const collectionRef = collection(db, "appointments");
-
   const appointmentsByUser = query(
     collection(db, "appointments"),
     where("user_id", "==", userId)
@@ -63,35 +61,21 @@ function AppointmentView(props: AppointmentProps) {
   }, []);
 
   return (
-    <div className={styles.upcomingAppointments}>
-      <h1>Upcoming Appointments</h1>
-      {appointments && appointments.length > 0 ? (
-        <ul>
-          {appointments.map((appointment: Appointment) => (
-            <div key={appointment.id}>
-              <li>{appointment.appointment_title}</li>
-              {/* <p>{timeNormalizer(appointment?.appointment_start_at)}</p> */}
-              <UpdateAppointment
-                appointment={appointment}
-                updateAppointment={updateAppointment}
-                updatedTitle={updatedTitle}
-                setUpdatedTitle={setUpdatedTitle}
-              />
-              <DeleteAppointment
-                // getAppointments={getAppointments}
-                appointment={appointment}
-              />
+    <>
+      <p className={styles.reminders}>Notifications</p>
+      <div className={styles.upcomingAppointments}>
+        {appointments && appointments.length > 0 ? (
+          appointments.map((appointment: Appointment) => (
+            <div key={appointment.id} className={styles.reminderCard}>
+              <span>{appointment.appointment_purpose}</span>
+              <span>{timeNormalizer(appointment?.appointment_start_at)}</span>
             </div>
-          ))}
-        </ul>
-      ) : (
-        <p>No upcoming appointments</p>
-      )}
-
-      <Link className="nav-link" href={`/addnew`}>
-        + Add
-      </Link>
-    </div>
+          ))
+        ) : (
+          <p>No Notifications</p>
+        )}
+      </div>
+    </>
   );
 }
 
