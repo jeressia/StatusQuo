@@ -12,6 +12,9 @@ import {
   ComboboxOption,
 } from "@reach/combobox";
 import "@reach/combobox/styles.css";
+
+import styles from "./Search.module.scss";
+
 interface PlacesProps {
   setLocation: (position: LatLngLiteral) => void;
 }
@@ -43,7 +46,7 @@ function Places({ setLocation }: PlacesProps) {
         className="combobox-input"
         placeholder="Find nearby places to address your needs"
       />
-      <ComboboxPopover>
+      <ComboboxPopover className={styles.customPopover}>
         <ComboboxList>
           {status === "OK" &&
             data.map(({ place_id, description }) => (

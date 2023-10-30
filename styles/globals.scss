@@ -149,7 +149,7 @@ p.footerIcon {
 .controls {
   position: fixed;
   bottom: 65px;
-  z-index: 99;
+  z-index: 1;
   background-color: #f4f4f4;
   height: 170px;
   width: 400px;
@@ -157,10 +157,12 @@ p.footerIcon {
   margin-bottom: 10px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 [data-reach-combobox-input] {
   width: 375px;
+  z-index: 5;
 }
 
 .search-combo-box .t-input {
@@ -180,4 +182,8 @@ p.footerIcon {
 
 form {
   margin-bottom: 120px;
+}
+
+[data-reach-combobox-option] {
+  z-index: 101;
 }
