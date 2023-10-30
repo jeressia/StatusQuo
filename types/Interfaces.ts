@@ -34,7 +34,7 @@ export interface Symptom {
   date_started: Date;
   date_ended: Date;
   photo_upload_url: string | null;
-  type_of_symptom: string;
+  type_of_symptom: string[];
 }
 
 export interface Reminder {

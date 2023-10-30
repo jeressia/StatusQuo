@@ -99,7 +99,7 @@ const Profile = () => {
           <label htmlFor="userName" className="col-sm-3">
             Name:
           </label>
-          <div className="col-sm-6">
+          <div className="col-sm-5">
             {editMode ? (
               <input
                 id="userName"

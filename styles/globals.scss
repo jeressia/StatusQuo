@@ -184,6 +184,17 @@ form {
   margin-bottom: 120px;
 }
 
-[data-reach-combobox-option] {
-  z-index: 101;
+.blue-btn {
+  display: block;
+  background-color: #b8d9ee;
+  border: 1px solid #b8d9ee;
+  margin: 0 auto;
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.form-control {
+  margin-bottom: 5px;
 }

@@ -38,7 +38,7 @@ function NewSex(props: NewEventProps) {
         <label htmlFor="Date" className="col-sm-3">
           Date
         </label>
-        <div className="col-sm-9">
+        <div className="col-sm-12">
           <DatePicker
             id="Date"
             showIcon
@@ -54,7 +54,7 @@ function NewSex(props: NewEventProps) {
         <label htmlFor="PartnerName" className="col-sm-3">
           Partner Name
         </label>
-        <div className="col-sm-9">
+        <div className="col-sm-12">
           <input
             id="PartnerName"
             type="text"
@@ -68,7 +68,7 @@ function NewSex(props: NewEventProps) {
         <label htmlFor="PartnerNumber" className="col-sm-3">
           Partner Number
         </label>
-        <div className="col-sm-9">
+        <div className="col-sm-12">
           <input
             id="PartnerNumber"
             type="text"
@@ -82,7 +82,7 @@ function NewSex(props: NewEventProps) {
         <label htmlFor="PartnerStatus" className="col-sm-3">
           Partner Status
         </label>
-        <div className="col-sm-9">
+        <div className="col-sm-12">
           <select
             className="form-control"
             id="PartnerStatus"
@@ -120,11 +120,12 @@ function NewSex(props: NewEventProps) {
         </div>
       </div>
       <button
+        className="btn btn-danger blue-btn"
         onClick={(e: any) =>
           onSubmitEvent(e, "sexual_relations", sexualRelationsToCreate)
         }
       >
-        + Add
+        Add New Sexual Activity
       </button>
     </form>
   );

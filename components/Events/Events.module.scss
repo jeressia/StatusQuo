@@ -48,7 +48,7 @@
   margin: 0 auto;
   height: 100vh;
   width: 100%;
-  padding: 25px;
+  padding: 45px 25px 0 25px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -71,6 +71,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding-top: 14px;
 
   &:hover {
     cursor: pointer;
